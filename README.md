@@ -15,7 +15,7 @@
   
 - タイルとの当たり判定  
 - オブジェクト同士の当たり判定  
-Unityのコライダーは使えません。)  
+Unityのコライダーは使えません。
   
   
 ![Gif](https://raw.githubusercontent.com/ebicochineal/Images/master/1.gif)
