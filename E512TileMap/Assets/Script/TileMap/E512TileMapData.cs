@@ -38,9 +38,9 @@ public class E512TileMapData : MonoBehaviour {
     private List<E512Pos> list_uvupdate = new List<E512Pos>();// uvupdateリスト
     private Mesh gridmesh;
 
-    public List<GameObject[]> objectpool = new List<GameObject[]>(); 
+    public List<GameObject[]> objectpool = new List<GameObject[]>();
 
-    
+    private int gameobjectlayer;
 
     static public Dictionary<string, E512TileMapData> scenemap = new Dictionary<string, E512TileMapData>();
 
@@ -91,7 +91,7 @@ public class E512TileMapData : MonoBehaviour {
             }
         }
 
-        
+        this.gameobjectlayer = this.gameObject.layer;
     }
 
     //void Update () {
@@ -195,6 +195,7 @@ public class E512TileMapData : MonoBehaviour {
                 objs[i].transform.localPosition = new Vector3((float)(bpos.x * E512Block.SIZE), (float)(bpos.y * E512Block.SIZE), -0.1f * i);
                 objs[i].transform.localRotation = Quaternion.identity;
                 objs[i].SetActive(false);
+                objs[i].layer = this.gameobjectlayer;
             }
         }
         return objs;
