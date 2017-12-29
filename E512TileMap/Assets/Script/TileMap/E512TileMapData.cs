@@ -20,7 +20,7 @@ public class E512TileMapData : MonoBehaviour {
     [SerializeField]
     public bool infinitymap = true;// 無限マップか
     [SerializeField]
-    public bool initmap = true;// 初期化するか
+    public bool initmap = true;// 範囲内を最初にすべて読み込むか
     [SerializeField]
     public bool ismap = true;// マップとして使用するか
     
@@ -65,7 +65,7 @@ public class E512TileMapData : MonoBehaviour {
     private HashSet<E512Pos> data_block = new HashSet<E512Pos>();
 
     void Awake () {
-        QualitySettings.antiAliasing = 0;// すべてのグラフィックでアンチエリアシング オフ
+        QualitySettings.antiAliasing = 0;// すべてのグラフィックでアンチエイリアシング オフ
 
         if (this.ismap) { E512TileMapData.SceneMap = this; }
 
