@@ -32,8 +32,3 @@
   
 ![Gif](https://raw.githubusercontent.com/ebicochineal/Images/master/0.gif)
 ![Gif](https://raw.githubusercontent.com/ebicochineal/Images/master/1.gif)
-![Gif](https://raw.githubusercontent.com/ebicochineal/Images/master/2.gif)
-![Gif](https://raw.githubusercontent.com/ebicochineal/Images/master/3.gif)
-![Gif](https://raw.githubusercontent.com/ebicochineal/Images/master/4.gif)
-![Gif](https://raw.githubusercontent.com/ebicochineal/Images/master/5.gif)
-![Gif](https://raw.githubusercontent.com/ebicochineal/Images/master/6.gif)
