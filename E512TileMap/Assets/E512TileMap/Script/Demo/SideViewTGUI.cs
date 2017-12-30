@@ -61,17 +61,17 @@ public class SideViewTGUI : MonoBehaviour {
     void Update () {
         var ac = this.tgm.ActiveGUI<TGUIWindow>();
         var mo = this.tgm.MouseOverGUI<TGUIWindow>();
-        if (Input.GetKeyDown(KeyCode.LeftArrow) && ac != null) {
-            ac.PrevTextPage();
+        //if (Input.GetKeyDown(KeyCode.LeftArrow) && ac != null) {
+        //    ac.PrevTextPage();
+        //}
+        //if (Input.GetKeyDown(KeyCode.RightArrow) && ac != null) {
+        //    ac.NextTextPage();
+        //}
+        if (Input.GetKey(KeyCode.UpArrow) && mo != null && mo != this.menu) {
+            mo.PrevTextLine();
         }
-        if (Input.GetKeyDown(KeyCode.RightArrow) && ac != null) {
-            ac.NextTextPage();
-        }
-        if (Input.GetKey(KeyCode.UpArrow) && ac != null && ac != this.menu) {
-            ac.PrevTextLine();
-        }
-        if (Input.GetKey(KeyCode.DownArrow) && ac != null && ac != this.menu) {
-            ac.NextTextLine();
+        if (Input.GetKey(KeyCode.DownArrow) && mo != null && mo != this.menu) {
+            mo.NextTextLine();
         }
         if (Input.GetKeyDown(KeyCode.V)) {
             this.tgm.Vertical(new E512Pos(), true);
