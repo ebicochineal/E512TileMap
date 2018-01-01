@@ -21,7 +21,8 @@ public class TestDraw : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        
+
+        // 右クリック　タイルをコピー
         if (Input.GetMouseButtonDown(1) && Input.mousePosition.y < Screen.height - 24) {
             E512Pos p = Camera.main.ScreenToWorldPoint(Input.mousePosition).ToMPos();
             E512TilePen.index = this.map.GetTile(p, this.layer);
@@ -37,10 +38,10 @@ public class TestDraw : MonoBehaviour {
             E512Pos s = Camera.main.ScreenToWorldPoint(this.left).ToMPos();
             E512Pos e = Camera.main.ScreenToWorldPoint(Input.mousePosition).ToMPos();
             foreach (E512Pos i in E512Pos.BoxList(s, e)) {
-                this.map.SetTile(i, E512TilePen.index, this.layer);
+                this.map.SetTile(i, E512TilePen.index, this.layer);// マップ書き換え
             }
             foreach (E512Pos i in E512Pos.BoxList(s, e, 0)) {
-                this.map.FixAutoTile(i, this.layer);
+                this.map.FixAutoTile(i, this.layer);// オートタイル修正
             }
         }
     }

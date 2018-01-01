@@ -50,7 +50,7 @@ public struct E512Pos : IEquatable<E512Pos> {
     
 
     bool IEquatable<E512Pos>.Equals (E512Pos other) {
-        if (other == null) { return false; }
+        //if (other == null) { return false; }
         return (this.x == other.x && this.y == other.y);
     }
     

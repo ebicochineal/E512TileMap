@@ -9,9 +9,7 @@ public class PlayerSide : MonoBehaviour {
     [HideInInspector]
     public E512TileMapData map;
     private Transform t_image;
-    private float timer = 0;
     public int lr = -1;
-    private bool inslow = false;
     public int mode = 0;
 
 
@@ -62,7 +60,6 @@ public class PlayerSide : MonoBehaviour {
 
             }
             
-            var cp = this.col.CPos();
             if (Input.GetKey(KeyCode.D)) {
                 this.col.MoveX(0.2f);
                 this.lr = 1;

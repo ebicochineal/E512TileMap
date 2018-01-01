@@ -16,9 +16,8 @@ public class TUnityPerlinNoiseSideView : MTileTerrain {
     }
 
     private bool Perlin (E512Pos cpos) {
-        float x, y, n, a, b, c, cx, cy;
+        float x, n, a, b, c, cx;
         cx = cpos.x < 0 ? cpos.x - 100 : cpos.x;
-        cy = cpos.y < 0 ? cpos.y - 100 : cpos.y;
         x = cx * 0.025f;
         c = Mathf.PerlinNoise(x, 0);
         x = cx * 0.05f;
@@ -33,7 +32,7 @@ public class TUnityPerlinNoiseSideView : MTileTerrain {
 
 
     private bool Perlin2 (E512Pos cpos) {
-        float x, y, n, a, b, c, cx, cy;
+        float x, y, a, b, c, cx, cy;
         cx = cpos.x;
         cy = cpos.y + -128;
         x = cx * 0.1f;

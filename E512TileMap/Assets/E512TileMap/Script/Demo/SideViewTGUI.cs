@@ -59,7 +59,7 @@ public class SideViewTGUI : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        var ac = this.tgm.ActiveGUI<TGUIWindow>();
+        //var ac = this.tgm.ActiveGUI<TGUIWindow>();
         var mo = this.tgm.MouseOverGUI<TGUIWindow>();
         //if (Input.GetKeyDown(KeyCode.LeftArrow) && ac != null) {
         //    ac.PrevTextPage();

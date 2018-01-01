@@ -15,19 +15,17 @@ public class Fire : MonoBehaviour {
     private Transform t_image;
     
     private int life_counter = 30;
-    private int rn;
     private float v = 0;
 
-    private EnemySide[] cols;
+    private EnemySide[] ecols;
     private BrightManager brights;
+
     // Use this for initialization
     void Start () {
         this.col = this.gameObject.GetComponent<DotCollision>();
         this.material = this.transform.GetChild(0).transform.GetComponent<MeshRenderer>().material;
         this.t_image = this.transform.GetChild(0).transform;
-        this.rn = Random.Range(0, 7);
-
-        this.cols = GameObject.Find("Enemy").GetComponentsInChildren<EnemySide>();
+        this.ecols = GameObject.Find("Enemy").GetComponentsInChildren<EnemySide>();
         this.brights = GameObject.Find("BrightManager").GetComponent<BrightManager>();
     }
 
@@ -71,7 +69,7 @@ public class Fire : MonoBehaviour {
         }
 
 
-        foreach (var i in this.cols) {
+        foreach (var i in this.ecols) {
             if (this.col.AABBTest(i.col)) {
                 i.Damage(5);
             }

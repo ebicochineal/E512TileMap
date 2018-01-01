@@ -13,7 +13,6 @@ public class PlayerTopDown : MonoBehaviour {
     //public Material background;
     //private int lr = 1;
     private Transform t_image;
-    private float timer = 0;
     [HideInInspector]
     public CellMove move;
     
@@ -28,7 +27,6 @@ public class PlayerTopDown : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         for (int i = 0; i < 1; ++i) {
-            var cp = this.collision.CPos();
             if (Input.GetKey(KeyCode.D)) {
                 this.move.Order(CellMove.Right);
             }
