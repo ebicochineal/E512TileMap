@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TUnityPerlinNoiseTopDown : MTileTerrain {
+public class TUnityPerlinNoiseTopDown : E512TileTerrain {
     public int index = 1;
     public override int GetTileIndex (E512Pos cpos, int layer) {
         if (layer > 0) { return E512Tile.Blank; }

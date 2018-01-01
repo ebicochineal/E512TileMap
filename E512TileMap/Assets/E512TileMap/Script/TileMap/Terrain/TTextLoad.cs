@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class TTextLoad : MTileTerrain {
+public class TTextLoad : E512TileTerrain {
     public TextAsset textmap;
     private bool isload = false;
     private List<int> tiles = new List<int>();

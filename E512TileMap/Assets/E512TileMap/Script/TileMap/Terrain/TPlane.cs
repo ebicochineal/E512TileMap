@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TPlane : MTileTerrain{
+public class TPlane : E512TileTerrain{
     public int index = 2;
 	public override int GetTileIndex(E512Pos cpos, int layer){
 		return this.index;

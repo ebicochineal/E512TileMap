@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TMandelbrot : MTileTerrain {
+public class TMandelbrot : E512TileTerrain {
     public int index = 1;
     int tmp = 0; 
     public override int GetTileIndex (E512Pos cpos, int layer) {

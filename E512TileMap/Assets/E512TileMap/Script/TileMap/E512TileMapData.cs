@@ -31,7 +31,7 @@ public class E512TileMapData : MonoBehaviour {
     [NonSerialized]
     public E512TileManager tilemanager;
 
-    public MTileTerrain terrain;
+    public E512TileTerrain terrain;
 
     private Dictionary<E512Pos, E512Block> dict_mapdata = new Dictionary<E512Pos, E512Block>();// マップブロックデータ辞書
     private Dictionary<E512Pos, GameObject[]> dict_draw = new Dictionary<E512Pos, GameObject[]>();// ドロー辞書
@@ -69,11 +69,11 @@ public class E512TileMapData : MonoBehaviour {
 
         if (this.ismap) { E512TileMapData.SceneMap = this; }
 
-        MTileTerrain terrain = this.gameObject.GetComponent<MTileTerrain>();
+        E512TileTerrain terrain = this.gameObject.GetComponent<E512TileTerrain>();
         if (terrain) {
             this.terrain = terrain;
         } else {
-            this.terrain = this.gameObject.AddComponent<MTileTerrain>();
+            this.terrain = this.gameObject.AddComponent<E512TileTerrain>();
         }
         this.terrain.Init();
         this.data_block = this.terrain.data_block;
@@ -256,7 +256,6 @@ public class E512TileMapData : MonoBehaviour {
     /// ドローリストのブロックデータ作成、オブジェクト作成
     /// </summary>
     private void DrawMeshCreate (List<E512Pos> list_bpos, int limit) {
-        // draw add initdata
         int count = 0;
         foreach (E512Pos i in list_bpos) {
             if (count > limit && limit > 0) { break; }
@@ -277,11 +276,7 @@ public class E512TileMapData : MonoBehaviour {
             }
         }
     }
-
-    /// <summary>
-    /// 描画範囲外のオブジェクト削除
-    /// 削除からオブジェクトプールに退避に変更
-    /// </summary>
+    
     private void DrawMeshDelete (List<E512Pos> list_bpos) {
         List<E512Pos> keys = new List<E512Pos>(this.dict_draw.Keys);
         foreach (E512Pos i in keys) {
@@ -376,7 +371,6 @@ public class E512TileMapData : MonoBehaviour {
 
     /// <summary>
     /// オートタイル修正　withother true 違うタイルも含める false同じオートタイルのみ変化させたい場合
-    /// Todo Union 違うオートタイルとの結合
     /// </summary>
     public void FixAutoTile (E512Pos cpos, int layer, bool withother = true) {
         if (!this.InSide(cpos)) { return; }
@@ -458,19 +452,6 @@ public class E512TileMapData : MonoBehaviour {
         E512Block b = this.dict_mapdata[bpos];
         b.SetTileLight(light, blpos.x, blpos.y);
     }
-
-
-    //private int LoadTileIndex (MPos cpos, int layer) {
-    //    return this.terrain.LoadTileIndex(cpos, layer);
-    //}
-
-    //private int LoadAutoTileIndex (MPos cpos, int layer) {
-    //    return this.terrain.LoadAutoTileIndex(cpos, layer);
-    //}
-
-    //private int LoadTileLight (MPos cpos) {
-    //  return this.terrain.LoadTileLight(cpos);
-    //}
     
     public string GetSavePath () {
         string path = this.save == E512TileSave.ResourcesSave ? Application.dataPath + "/Resources": Application.persistentDataPath;
@@ -493,13 +474,13 @@ public class E512TileMapData : MonoBehaviour {
             byte[] bs = new byte[bsize * E512Block.SECTORSIZE * E512Block.SECTORSIZE];
             var fs = new System.IO.FileStream(filepath, System.IO.FileMode.Create, System.IO.FileAccess.Write);
             fs.Write(bs, 0, bs.Length);
-            fs.Seek(pos, System.IO.SeekOrigin.Begin);///
-            fs.Write(sbd, 0, sbd.Length);///
+            fs.Seek(pos, System.IO.SeekOrigin.Begin);
+            fs.Write(sbd, 0, sbd.Length);
             fs.Close();
         } else {
             var fs = new System.IO.FileStream(filepath, System.IO.FileMode.Open, System.IO.FileAccess.Write);
-            fs.Seek(pos, System.IO.SeekOrigin.Begin);///
-            fs.Write(sbd, 0, sbd.Length);///
+            fs.Seek(pos, System.IO.SeekOrigin.Begin);
+            fs.Write(sbd, 0, sbd.Length);
             fs.Close();
         }
     }

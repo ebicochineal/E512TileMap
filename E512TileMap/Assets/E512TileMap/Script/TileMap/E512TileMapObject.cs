@@ -19,16 +19,16 @@ public class E512TileMapObject : MonoBehaviour {//
     [NonSerialized]
     public E512TileManager tilemanager;
 
-    public MTileTerrain tileterrain;
+    public E512TileTerrain tileterrain;
     private Mesh gridmesh;
     private E512Block[,] blocks;
     private GameObject[,][] objs;
     void Start () {
-        MTileTerrain terrain = this.gameObject.GetComponent<MTileTerrain>();
+        E512TileTerrain terrain = this.gameObject.GetComponent<E512TileTerrain>();
         if (terrain) {
             this.tileterrain = terrain;
         } else {
-            this.tileterrain = this.gameObject.AddComponent<MTileTerrain>();
+            this.tileterrain = this.gameObject.AddComponent<E512TileTerrain>();
         }
 
         this.gridmesh = E512Mesh.Grid(E512Block.SIZE, E512Block.SIZE, 0, 0, true);

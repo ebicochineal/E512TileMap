@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TGround : MTileTerrain {
+public class TGround : E512TileTerrain {
     public int index = 1;
     public override int GetTileIndex (E512Pos cpos, int layer) {
         if (layer == 0) {

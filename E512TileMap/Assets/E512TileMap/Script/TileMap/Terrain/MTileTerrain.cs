@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class MTileTerrain : MonoBehaviour {
+public class E512TileTerrain : MonoBehaviour {
     
     private Dictionary<E512Pos, E512Block> dict_mapdata = new Dictionary<E512Pos, E512Block>();// マップブロックデータ辞書
     [NonSerialized]
