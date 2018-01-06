@@ -18,7 +18,7 @@ public class Fire : MonoBehaviour {
     private float v = 0;
 
     private EnemySide[] ecols;
-    private BrightManager brights;
+    private BrightManager bm;
 
     // Use this for initialization
     void Start () {
@@ -26,7 +26,7 @@ public class Fire : MonoBehaviour {
         this.material = this.transform.GetChild(0).transform.GetComponent<MeshRenderer>().material;
         this.t_image = this.transform.GetChild(0).transform;
         this.ecols = GameObject.Find("Enemy").GetComponentsInChildren<EnemySide>();
-        this.brights = GameObject.Find("BrightManager").GetComponent<BrightManager>();
+        this.bm = GameObject.Find("BrightManager").GetComponent<BrightManager>();
     }
 
     // Update is called once per frame
@@ -52,18 +52,18 @@ public class Fire : MonoBehaviour {
         
         if (this.col.MoveXDeltaTime(this.ax + this.v)) {
             if (this.ax + this.v > 0) {
-                this.brights.DinamicBrightness(this.col.CPos() + new E512Pos(1, 0), 6);
+                this.bm.DynamicBrightness(this.col.CPos() + new E512Pos(1, 0), 6);
             } else {
-                this.brights.DinamicBrightness(this.col.CPos() + new E512Pos(-1, 0), 6);
+                this.bm.DynamicBrightness(this.col.CPos() + new E512Pos(-1, 0), 6);
             }
 
         }
 
         if (this.col.MoveYDeltaTime(this.ay)) {
             if (this.ay > 0) {
-                this.brights.DinamicBrightness(this.col.CPos() + new E512Pos(0, 1), 6);
+                this.bm.DynamicBrightness(this.col.CPos() + new E512Pos(0, 1), 6);
             } else {
-                this.brights.DinamicBrightness(this.col.CPos() + new E512Pos(0, -1), 6);
+                this.bm.DynamicBrightness(this.col.CPos() + new E512Pos(0, -1), 6);
             }
 
         }
@@ -121,25 +121,4 @@ public class Fire : MonoBehaviour {
         return false;
     }
     
-
-    List<E512Pos> lights = new List<E512Pos>();
-    private void Light () {
-        var cpos = this.col.CPos();
-
-        int d = 10;
-        int mu = cpos.y + d;
-        int mr = cpos.x + d;
-        int ml = cpos.x - d;
-        int md = cpos.y - d;
-        for (int i = md; i <= mu; ++i) {
-            for (int j = ml; j <= mr; ++j) {
-                var p = new E512Pos(j, i);
-                var v = -(int)Vector2.Distance(new Vector2(cpos.x, cpos.y), new Vector2(p.x, p.y));
-
-                this.col.map.SetTileLight(p, Mathf.Max(Mathf.Max(v, -10), this.col.map.GetTileLight(p)));
-                this.lights.Add(p);
-
-            }
-        }
-    }
 }

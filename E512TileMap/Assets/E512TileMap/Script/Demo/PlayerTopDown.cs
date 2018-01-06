@@ -8,10 +8,7 @@ public class PlayerTopDown : MonoBehaviour {
     public DotCollision collision;
     [HideInInspector]
     public E512TileMapData map;
-    //public GameObject particle;
-    //public GameObject block;
-    //public Material background;
-    //private int lr = 1;
+
     private Transform t_image;
     [HideInInspector]
     public CellMove move;

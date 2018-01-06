@@ -20,6 +20,7 @@ public class EnemySide : MonoBehaviour {
     private Mesh drmesh;
     private Material dmat;
     private Vector3 dlast;
+
     // Use this for initialization
     void Start() {
         this.col = this.gameObject.GetComponent<DotCollision>();

@@ -21,7 +21,7 @@ public class SideViewTGUI : MonoBehaviour {
     List<string> lis = new List<string>() { "egg", "fire", "ebiblue" };
     public void ListDown (TGUIWindow self) {
         this.n = (this.n + 1) % this.lis.Count;
-        GameObject.Find("EbiCochineal").GetComponent<PlayerSide>().mode = n;
+        GameObject.Find("EbiCochineal").GetComponent<PlayerSide>().actiontype = n;
         if (this.tgm.gui_list.IndexOf(this.menu) > -1) {// SpaceキーでGUI削除できるようにしているため
             self.Text = this.ListText();
         }
@@ -29,7 +29,7 @@ public class SideViewTGUI : MonoBehaviour {
 
     public void ListUp (TGUIWindow self) {
         this.n = (this.n - 1 + this.lis.Count) % this.lis.Count;
-        GameObject.Find("EbiCochineal").GetComponent<PlayerSide>().mode = n;
+        GameObject.Find("EbiCochineal").GetComponent<PlayerSide>().actiontype = n;
         if (this.tgm.gui_list.IndexOf(this.menu) > -1) {// SpaceキーでGUI削除できるようにしているため
             self.Text = this.ListText();
         }
