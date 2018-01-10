@@ -38,15 +38,8 @@
 			// 頂点シェーダ
 			VertOut vert(appdata_full v) {
 				VertOut o;
-				o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
-				/*
-				// 使わなくなった一応残しとく
-				#if defined(UNITY_REVERSED_Z)
-				o.pos.z = 0.01 + (0.01 * _Layer);
-				#else
-				o.pos.z = 0.99 - (0.01 * _Layer);
-				#endif
-				*/
+				// o.pos = mul(UNITY_MATRIX_MVP, v.vertex); // 2017_2
+				o.pos = UnityObjectToClipPos(v.vertex);
 
 				o.uv = v.texcoord;
 

@@ -30,7 +30,9 @@
 			// 頂点シェーダ
 			VertOut vert(appdata_full v) {
 				VertOut o;
-				o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+				// o.pos = mul(UNITY_MATRIX_MVP, v.vertex); // 2017_2
+				o.pos = UnityObjectToClipPos(v.vertex);
+
 #if defined(UNITY_REVERSED_Z)
 				o.pos.z = 0.01;
 #else
@@ -38,7 +40,7 @@
 #endif
 				o.uv = v.texcoord;
 
-				if (o.uv.x < -_TexTileSize) {// ブランク
+				if (o.uv.x < -_TexTileSize) {// 無
 					o.pos.x = 0;
 					return o;
 				}
@@ -55,8 +57,8 @@
 			// ピクセルシェーダ
 			fixed4 frag(VertOut input) : COLOR {
 				fixed4 c = tex2D(_MainTex, input.uv);
-				if (input.uv.x < -_TexTileSize) { discard; }// ブランク
-				//if (input.uv.x < 0) { return fixed4(0, 0, 0, 1); }// ブラック
+				//if (input.uv.x < -_TexTileSize) { discard; }// 無
+				if (input.uv.x < 0) { return fixed4(0, 0, 0, 1); }// 黒
 				if (c.a < 1) { discard; }// 透明
 				return c;
 			}
@@ -86,10 +88,11 @@
 			// 頂点シェーダ
 			VertOut vert(appdata_full v) {
 				VertOut o;
-				o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+				// o.pos = mul(UNITY_MATRIX_MVP, v.vertex); // 2017_2
+				o.pos = UnityObjectToClipPos(v.vertex);
 				o.uv = v.texcoord;
 
-				if (o.uv.x < -_TexTileSize) {// ブランク
+				if (o.uv.x < -_TexTileSize) {// 無
 					o.pos.x = 0;
 					return o;
 				}
@@ -106,8 +109,8 @@
 			// ピクセルシェーダ
 			fixed4 frag(VertOut input) : COLOR {
 				fixed4 c = tex2D(_MainTex, input.uv);
-				//if (input.uv.x < -_CellSize) { discard; }// ブランク
-				if (input.uv.x < 0) { return fixed4(0, 0, 0, 1); }// ブラック
+				//if (input.uv.x < -_CellSize) { discard; }// 無
+				if (input.uv.x < 0) { return fixed4(0, 0, 0, 1); }// 黒
 				if (c.a < 1) { discard; }// 透明
 				return c;
 			}
@@ -115,56 +118,5 @@
 		}
 
 	}
- /*
-	SubShader{
-		Tags{ "Queue" = "Overlay" "RenderType" = "Overlay" }
-		//Lighting Off
-		//ZWrite On
-		//Ztest Always
-
-		pass {
-			CGPROGRAM
-			#pragma vertex vert
-			#pragma fragment frag
-			#include "UnityCG.cginc"
-
-			sampler2D _MainTex;
-			float4 _MainTex_TexelSize;
-			int _TileSize;
-			int _Layer;
-			float _CellSize;
-
-			struct VertOut {
-				float4 pos : POSITION;
-				float2 uv : TEXCOORD0;
-			};
-
-			// 頂点シェーダ
-			VertOut vert(appdata_full v) {
-				VertOut o;
-				o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
-				o.uv = v.texcoord;
-				float2 uv = v.texcoord;
-				if (uv.x > 1) {// タイルアニメーション
-					o.uv.x = uv.x - (int)uv.x;
-					int animsize = (int)uv.x + 1;
-					o.uv.x += (_MainTex_TexelSize.x * _TileSize) * (((int)(_Time.y * 2)) % animsize);
-				}
-				return o;
-			}
-
-			// ピクセルシェーダ
-			float4 frag(VertOut input) : COLOR {
-				fixed4 c = tex2D(_MainTex, input.uv);
-				if (input.uv.x < -_CellSize) { discard; }// ブランク
-				if (input.uv.x < 0) { return float4(0, 0, 0, 1); }// ブラック
-				if (c.a < 1) { discard; }// テクスチャカラー透明
-				return c;
-			}
-
-			ENDCG
-		}
-	}
-*/
 	Fallback "Diffuse"
 }

@@ -53,7 +53,8 @@
 				float sx = 1.0 / tx;
 				int ty = _MainTex_TexelSize.w / _TileSizeY;
 				float sy = 1.0 / ty;
-				o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+				// o.pos = mul(UNITY_MATRIX_MVP, v.vertex); // 2017_2
+				o.pos = UnityObjectToClipPos(v.vertex);
 				o.uv = v.texcoord;
 				o.uv.y = sy * (ty - _Y - 1) + sy * o.uv.y;
 				if (_Anim > 1) {

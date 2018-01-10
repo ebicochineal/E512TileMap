@@ -26,7 +26,8 @@
 			// 頂点シェーダ
 			VertOut vert(appdata_full v) {
 				VertOut o;
-				o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+				// o.pos = mul(UNITY_MATRIX_MVP, v.vertex); // 2017_2
+				o.pos = UnityObjectToClipPos(v.vertex);
 				o.uv = v.texcoord;
 				return o;
 			}
