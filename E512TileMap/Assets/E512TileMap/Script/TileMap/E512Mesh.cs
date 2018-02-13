@@ -4,17 +4,17 @@ using System.Collections;
 // グリッドメッシュ生成クラス
 public class E512Mesh {
     // グリッドメッシュ生成 中心
-    static public Mesh Grid (int gx, int gy) {
+    public static Mesh Grid (int gx, int gy) {
         return Grid(gx, gy, -((float)gx / 2), -((float)gy / 2), false);
     }
 
     // グリッドメッシュ生成 グリッドの中心座標指定
-    static public Mesh Grid (int gx, int gy, float cx, float cy) {
+    public static Mesh Grid (int gx, int gy, float cx, float cy) {
         return Grid(gx, gy, cx, cy, false);
     }
 
     // グリッドメッシュ生成 グリッドの中心座標指定 セルサイズをハーフにするか指定
-    static public Mesh Grid (int gx, int gy, float cx, float cy, bool half) {
+    public static Mesh Grid (int gx, int gy, float cx, float cy, bool half) {
         Mesh m = new Mesh();
         m.name = "GridMesh";
         m.vertices = GridVertice(gx, gy, cx, cy, half);
@@ -25,7 +25,7 @@ public class E512Mesh {
         return m;
     }
 
-    static Vector3[] GridVertice (int gx, int gy, float cx, float cy, bool half) {
+    private static Vector3[] GridVertice (int gx, int gy, float cx, float cy, bool half) {
         int max_x = gx * (half ? 2 : 1);
         int max_y = gy * (half ? 2 : 1);
         float fs = (half ? 0.5f : 1f);
@@ -44,8 +44,7 @@ public class E512Mesh {
         return vertices;
     }
     
-
-    static int[] GridTriangle (int gx, int gy, int layer, bool half) {
+    private static int[] GridTriangle (int gx, int gy, int layer, bool half) {
         int max_x = gx * (half ? 2 : 1);
         int max_y = gy * (half ? 2 : 1);
         int[] triangles = new int[max_x * max_y * layer * 6];
@@ -62,16 +61,16 @@ public class E512Mesh {
         return triangles;
     }
 
-    static Vector2[] GridUV (int gx, int gy, int layer, bool half) {
+    private static Vector2[] GridUV (int gx, int gy, int layer, bool half) {
         int max_x = gx * (half ? 2 : 1);
         int max_y = gy * (half ? 2 : 1);
         return new Vector2[max_x * max_y * layer * 4];
     }
 
 
-    static readonly public Mesh Quad = E512Mesh._Quad();
-    static readonly public Mesh RQuad = E512Mesh._RQuad();
-    static private Mesh _Quad () {
+    public static readonly Mesh Quad = E512Mesh._Quad();
+    public static readonly Mesh RQuad = E512Mesh._RQuad();
+    private static Mesh _Quad () {
         Mesh m = new Mesh();
         m.name = "MMeshQuad";
         m.vertices = new Vector3[] { new Vector3(-0.5f, -0.5f, 0), new Vector3(-0.5f, 0.5f, 0) , new Vector3(0.5f, 0.5f, 0) , new Vector3(0.5f, -0.5f, 0) };
@@ -81,7 +80,7 @@ public class E512Mesh {
         m.RecalculateBounds();
         return m;
     }
-    static private Mesh _RQuad () {
+    private static Mesh _RQuad () {
         Mesh m = new Mesh();
         m.name = "MMeshQuad";
         m.vertices = new Vector3[] { new Vector3(-0.5f, -0.5f, 0), new Vector3(-0.5f, 0.5f, 0), new Vector3(0.5f, 0.5f, 0), new Vector3(0.5f, -0.5f, 0) };

@@ -13,31 +13,31 @@ public struct E512Pos : IEquatable<E512Pos> {
         this.y = y;
     }
 
-    static public E512Pos operator + (E512Pos a, E512Pos b) {
+    public static E512Pos operator + (E512Pos a, E512Pos b) {
         return new E512Pos(a.x + b.x, a.y + b.y);
     }
-    static public E512Pos operator + (E512Pos a, int b) {
+    public static E512Pos operator + (E512Pos a, int b) {
         return new E512Pos(a.x + b, a.y + b);
     }
 
-    static public E512Pos operator - (E512Pos a, E512Pos b) {
+    public static E512Pos operator - (E512Pos a, E512Pos b) {
         return new E512Pos(a.x - b.x, a.y - b.y);
     }
-    static public E512Pos operator - (E512Pos a, int b) {
+    public static E512Pos operator - (E512Pos a, int b) {
         return new E512Pos(a.x - b, a.y - b);
     }
 
-    static public E512Pos operator * (E512Pos a, int b) {
+    public static E512Pos operator * (E512Pos a, int b) {
         return new E512Pos(a.x * b, a.y * b);
     }
 
-    static public bool operator == (E512Pos a, E512Pos b) {
+    public static bool operator == (E512Pos a, E512Pos b) {
         if (System.Object.ReferenceEquals(a, b)) { return true; }// インスタンスが同じ
         if ((System.Object)a == null || (System.Object)b == null) { return false; }// どちらかがnullならfalse
         return (a.x == b.x && a.y == b.y);
     }
 
-    static public bool operator != (E512Pos a, E512Pos b) {
+    public static bool operator != (E512Pos a, E512Pos b) {
         return !(a == b);
     }
 
@@ -63,7 +63,7 @@ public struct E512Pos : IEquatable<E512Pos> {
     }
 
     // ２点セル座標からボックス範囲内のセルリストを作成
-    static public List<E512Pos> BoxList (E512Pos v1, E512Pos v2) {
+    public static List<E512Pos> BoxList (E512Pos v1, E512Pos v2) {
         List<E512Pos> list = new List<E512Pos>();
         E512Pos s = E512Pos.Min(v1, v2);
         E512Pos e = E512Pos.Max(v1, v2);
@@ -76,7 +76,7 @@ public struct E512Pos : IEquatable<E512Pos> {
         return list;
     }
     // ２点セル座標からボックス範囲内のセルリストを作成 v範囲拡大縮小
-    static public List<E512Pos> BoxList (E512Pos v1, E512Pos v2, int v) {
+    public static List<E512Pos> BoxList (E512Pos v1, E512Pos v2, int v) {
         List<E512Pos> list = new List<E512Pos>();
         E512Pos s = E512Pos.Min(v1, v2) - v;
         E512Pos e = E512Pos.Max(v1, v2) + v;
@@ -93,7 +93,7 @@ public struct E512Pos : IEquatable<E512Pos> {
         return new E512Pos(Mathf.Min(v1.x, v2.x), Mathf.Min(v1.y, v2.y));
     }
 
-    static public E512Pos Max (E512Pos v1, E512Pos v2) {
+    public static E512Pos Max (E512Pos v1, E512Pos v2) {
         return new E512Pos(Mathf.Max(v1.x, v2.x), Mathf.Max(v1.y, v2.y));
     }
 
@@ -104,14 +104,14 @@ public struct E512Pos : IEquatable<E512Pos> {
     }
 }
 
-static public class MTileMapPosExtensions {
-    static public E512Pos ToMPos (this Vector2 v) {
+public static class MTileMapPosExtensions {
+    public static E512Pos ToMPos (this Vector2 v) {
         int ix = v.x < 0 ? ((int)v.x) - 1 : (int)v.x;
         int iy = v.y < 0 ? ((int)v.y) - 1 : (int)v.y;
         return new E512Pos(ix, iy);
     }
 
-    static public E512Pos ToMPos (this Vector3 v) {
+    public static E512Pos ToMPos (this Vector3 v) {
         int ix = v.x < 0 ? ((int)v.x) - 1 : (int)v.x;
         int iy = v.y < 0 ? ((int)v.y) - 1 : (int)v.y;
         return new E512Pos(ix, iy);

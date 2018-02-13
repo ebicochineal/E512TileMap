@@ -41,9 +41,9 @@ public class TGUI {
 }
 
 public class TGUIWindowTexture {
-    static public TGUIWindowTexture DEFAULT = new TGUIWindowTexture();
-    static public TGUIWindowTexture DEFAULT8 = new TGUIWindowTexture("window8", "font8");
-    static public TGUIWindowTexture DEFAULT16 = new TGUIWindowTexture("window16", "font16");
+    public static TGUIWindowTexture DEFAULT = new TGUIWindowTexture();
+    public static TGUIWindowTexture DEFAULT8 = new TGUIWindowTexture("window8", "font8");
+    public static TGUIWindowTexture DEFAULT16 = new TGUIWindowTexture("window16", "font16");
     private string w_texture_str = "window16";
     private string t_texture_str = "font16";
     public Texture2D w_texture;

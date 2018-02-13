@@ -12,7 +12,7 @@ public class TBlock {
         this.tileindex = new int[TBlock.BLOCKSIZE];
     }
 
-    static private int Convert (int x, int y) {
+    private static int Convert (int x, int y) {
         return x + TBlock.SIZE * y;
     }
 
@@ -23,21 +23,21 @@ public class TBlock {
         return this.tileindex[TBlock.Convert(x, y)];
     }
 
-    static public int BValue (int v) {
+    public static int BValue (int v) {
         return v < 0 ? (((v + 1) / (TBlock.SIZE)) - 1) : v / TBlock.SIZE;
     }
 
-    static public int BLocalValue (int v) {
+    public static int BLocalValue (int v) {
         return v < 0 ? ((v + 1) % TBlock.SIZE) + (TBlock.SIZE - 1) : v % TBlock.SIZE;
     }
 
-    static public E512Pos BPos (E512Pos cpos) {
+    public static E512Pos BPos (E512Pos cpos) {
         int x = TBlock.BValue(cpos.x);
         int y = TBlock.BValue(cpos.y);
         return new E512Pos(x, y);
     }
 
-    static public E512Pos BLocalPos (E512Pos cpos) {
+    public static E512Pos BLocalPos (E512Pos cpos) {
         int x = TBlock.BLocalValue(cpos.x);
         int y = TBlock.BLocalValue(cpos.y);
         return new E512Pos(x, y);

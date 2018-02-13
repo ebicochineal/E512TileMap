@@ -42,9 +42,9 @@ public class E512TileMapData : MonoBehaviour {
 
     private int gameobjectlayer;
 
-    static public Dictionary<string, E512TileMapData> scenemap = new Dictionary<string, E512TileMapData>();
+    public static Dictionary<string, E512TileMapData> scenemap = new Dictionary<string, E512TileMapData>();
 
-    static public E512TileMapData SceneMap {
+    public static E512TileMapData SceneMap {
         set {
             if (!E512TileMapData.scenemap.ContainsKey(SceneManager.GetActiveScene().name)) {
                 E512TileMapData.scenemap.Add(SceneManager.GetActiveScene().name, value);
@@ -52,13 +52,11 @@ public class E512TileMapData : MonoBehaviour {
         }
         get { return E512TileMapData.scenemap[SceneManager.GetActiveScene().name]; }
     }
-
-
+    
     // save
     [SerializeField]
     public E512TileSave save = E512TileSave.None;
-
-
+    
     [SerializeField]
     public string save_dir;
 

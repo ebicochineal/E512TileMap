@@ -97,14 +97,14 @@ public class E512TileManager {
         }
     }
 
-    static public TileType ToTileType (string s) {
+    public static TileType ToTileType (string s) {
         TileType t = TileType.NormalTile;
         if (s == "NormalTile") { t = TileType.NormalTile; }
         if (s == "AutoTile") { t = TileType.AutoTile; }
         return t;
     }
 
-    static public TileCollisionType ToTileCollisionType (string s) {
+    public static TileCollisionType ToTileCollisionType (string s) {
         TileCollisionType c = TileCollisionType.Passable;
         if (s == "Passable") { c = TileCollisionType.Passable; }
         if (s == "NoPassable") { c = TileCollisionType.NoPassable; }

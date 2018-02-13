@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class TGUIManager : MonoBehaviour {
-    static public Dictionary<string, TGUIManager> tgui = new Dictionary<string, TGUIManager>();
+    public static Dictionary<string, TGUIManager> tgui = new Dictionary<string, TGUIManager>();
     public int wdiv = 0;// 横何マスか指定してスケールを調整
     public float scale = 1f;
     private int snap_size;
@@ -28,7 +28,7 @@ public class TGUIManager : MonoBehaviour {
     private bool is_window_drag = false;
     private E512Pos drag_pos = new E512Pos();
 
-    static public TGUIManager TGUI {
+    public static TGUIManager TGUI {
         set {
             if (!TGUIManager.tgui.ContainsKey(SceneManager.GetActiveScene().name)) {
                 TGUIManager.tgui.Add(SceneManager.GetActiveScene().name, value);
@@ -230,7 +230,4 @@ public class TGUIManager : MonoBehaviour {
     private void OrderOnClickEvent (TGUI t) {
         if (t != null) { t.OnClick(); } 
     }
-
-
-   
 }

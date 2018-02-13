@@ -66,11 +66,11 @@ public class E512Tile {
         }
     }
 
-    
+
     /// <summary>
     /// ノーマルタイルのテクスチャ座標を返します
     /// </summary>
-    E512Pos[] NormalTile () {
+    private E512Pos[] NormalTile () {
         E512Pos[] r = new E512Pos[4];
         E512Pos p = new E512Pos(this.x, this.y) * 2;
         r[0] = p + new E512Pos(0, 0);
@@ -81,7 +81,7 @@ public class E512Tile {
     }
 
 
-    static public List<E512Tile> CommonTiles () {
+    public static List<E512Tile> CommonTiles () {
         List<E512Tile> r = new List<E512Tile>();
         r.Add(new E512Tile(-3, 0, TileCollisionType.NoPassable, TileType.NormalTile, 0));// アウトサイド
         r.Add(new E512Tile(-2, 0, TileCollisionType.Passable, TileType.NormalTile, 0));// ブランク

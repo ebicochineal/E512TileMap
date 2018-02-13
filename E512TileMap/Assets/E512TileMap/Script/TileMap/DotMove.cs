@@ -45,9 +45,7 @@ public class DotMove : MonoBehaviour {
         }
         get { return this.dpy; }
     }
-
-
-
+    
     void Start () {
         this.Init();
     }

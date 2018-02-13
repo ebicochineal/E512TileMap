@@ -23,7 +23,7 @@ public class E512Block {
         this.light = new int[E512Block.BLOCKSIZE];
     }
 
-    static private int Convert (int layer, int x, int y) {
+    private static int Convert (int layer, int x, int y) {
         return x + (E512Block.SIZE * y) + (E512Block.BLOCKSIZE * layer);
     }
 
@@ -85,7 +85,7 @@ public class E512Block {
 
 
     // ２点セル座標からボックス範囲内のブロックリストを作成
-    static public List<E512Pos> BoxBlockList (E512Pos start, E512Pos end) {
+    public static List<E512Pos> BoxBlockList (E512Pos start, E512Pos end) {
         var r = new List<E512Pos>();
         var sx = E512Block.BValue(start.x);
         var ex = E512Block.BValue(end.x) + 1;
@@ -99,61 +99,61 @@ public class E512Block {
         return r;
     }
 
-    static public int BValue (int v) {
+    public static int BValue (int v) {
         return v < 0 ? (((v + 1) / (E512Block.SIZE)) - 1) : v / E512Block.SIZE;
     }
 
     /// <summary>
     /// セル座標をブロック座標に変換
     /// </summary>
-    static public E512Pos BPos (E512Pos cpos) {
+    public static E512Pos BPos (E512Pos cpos) {
         int x = E512Block.BValue(cpos.x);
         int y = E512Block.BValue(cpos.y);
         return new E512Pos(x, y);
     }
 
-    static public int BLocalValue (int v) {
+    public static int BLocalValue (int v) {
         return v < 0 ? ((v + 1) % E512Block.SIZE) + (E512Block.SIZE - 1) : v % E512Block.SIZE;
     }
 
     /// <summary>
     /// セル座標をブロック内座標に変換
     /// </summary>
-    static public E512Pos BLocalPos (E512Pos cpos) {
+    public static E512Pos BLocalPos (E512Pos cpos) {
         int x = E512Block.BLocalValue(cpos.x);
         int y = E512Block.BLocalValue(cpos.y);
         return new E512Pos(x, y);
     }
 
-    static public E512Pos BPosToSector (E512Pos bpos) {
+    public static E512Pos BPosToSector (E512Pos bpos) {
         E512Pos r = new E512Pos(bpos.x / E512Block.SECTORSIZE, bpos.y / E512Block.SECTORSIZE);
         r.x -= bpos.x < 0 ? 1 : 0;
         r.y -= bpos.y < 0 ? 1 : 0;
         return r;
     }
 
-    static public E512Pos BPosNameToBPos (string s) {
+    public static E512Pos BPosNameToBPos (string s) {
         var t = s.Remove(0, 1).Replace('m', '-').Split('y');
         var x = int.Parse(t[0]);
         var y = int.Parse(t[1]);
         return new E512Pos(x, y);
     }
 
-    static public string BPosName (E512Pos bpos) {
+    public static string BPosName (E512Pos bpos) {
         string r = "";
         r += "x" + (bpos.x < 0 ? "m" + Mathf.Abs(bpos.x).ToString() : bpos.x.ToString());
         r += "y" + (bpos.y < 0 ? "m" + Mathf.Abs(bpos.y).ToString() : bpos.y.ToString());
         return r;
     }
 
-    static public string SectorName (E512Pos spos) {
+    public static string SectorName (E512Pos spos) {
         string r = "";
         r += "x" + (spos.x < 0 ? "m" + Mathf.Abs(spos.x).ToString() : spos.x.ToString());
         r += "y" + (spos.y < 0 ? "m" + Mathf.Abs(spos.y).ToString() : spos.y.ToString());
         return r;
     }
 
-    static public E512Pos SectorNameToSPos (string s) {
+    public static E512Pos SectorNameToSPos (string s) {
         var t = s.Remove(0, 1).Replace('m', '-').Split('y');
         var x = int.Parse(t[0]);
         var y = int.Parse(t[1]);
@@ -163,7 +163,7 @@ public class E512Block {
     /// <summary>
     /// ブロック座標からセクター内インデックスに変換
     /// </summary>
-    static public int SectorIndex (E512Pos bpos) {
+    public static int SectorIndex (E512Pos bpos) {
         int x = bpos.x < 0 ? E512Block.SECTORSIZE + bpos.x % E512Block.SECTORSIZE : bpos.x % E512Block.SECTORSIZE;
         int y = bpos.y < 0 ? E512Block.SECTORSIZE + bpos.y % E512Block.SECTORSIZE : bpos.y % E512Block.SECTORSIZE;
         return x + y * E512Block.SECTORSIZE;
@@ -201,5 +201,4 @@ public class E512Block {
         
         return r;
     }
-    
 }

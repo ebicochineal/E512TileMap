@@ -3,14 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class E512Input {
-    static public void CameraWASDMove (float movespeed) {
+    public static void CameraWASDMove (float movespeed) {
         if (Input.GetKey(KeyCode.W)) { Camera.main.transform.position += new Vector3(0f, movespeed, 0f); }
         if (Input.GetKey(KeyCode.S)) { Camera.main.transform.position += new Vector3(0f, -movespeed, 0f); }
         if (Input.GetKey(KeyCode.A)) { Camera.main.transform.position += new Vector3(-movespeed, 0f, 0f); }
         if (Input.GetKey(KeyCode.D)) { Camera.main.transform.position += new Vector3(movespeed, 0f, 0f); }
     }
 
-    static public void CameraArrowMove (float movespeed) {
+    public static void CameraArrowMove (float movespeed) {
         if (Input.GetKey(KeyCode.UpArrow)) { Camera.main.transform.position += new Vector3(0f, movespeed, 0f); }
         if (Input.GetKey(KeyCode.DownArrow)) { Camera.main.transform.position += new Vector3(0f, -movespeed, 0f); }
         if (Input.GetKey(KeyCode.LeftArrow)) { Camera.main.transform.position += new Vector3(-movespeed, 0f, 0f); }
@@ -24,8 +24,8 @@ public class E512Input {
     // 	}
     // }
 
-    static Vector3 middle = new Vector3();
-    static public void CameraMouseMiddleMove () {
+    private static Vector3 middle = new Vector3();
+    public static void CameraMouseMiddleMove () {
         if (Input.GetMouseButtonDown(2)) {
             middle = Input.mousePosition;
         }
@@ -37,8 +37,8 @@ public class E512Input {
         middle = Input.mousePosition;
     }
 
-    static Vector3 left = new Vector3();
-    static public void CameraMouseLeftMove () {
+    private static Vector3 left = new Vector3();
+    public static void CameraMouseLeftMove () {
         if (Input.GetMouseButtonDown(0)) {
             left = Input.mousePosition;
         }

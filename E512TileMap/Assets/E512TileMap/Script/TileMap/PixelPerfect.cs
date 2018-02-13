@@ -5,7 +5,7 @@ using UnityEngine;
 public class PixelPerfect : MonoBehaviour {
     public int pixels_per_unit = 100;
     public float scale = 1f;
-    Camera cam;
+    private Camera cam;
     
     void Start () {
         this.cam = GetComponent<Camera>();

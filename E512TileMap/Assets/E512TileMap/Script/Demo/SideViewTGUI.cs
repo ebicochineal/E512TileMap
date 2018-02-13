@@ -129,7 +129,7 @@ public class SideViewTGUI : MonoBehaviour {
 
     public void SetSlowText (TGUIWindow self) {
         var s = "";
-        for (int i = 0; i < 16; i++) { s += "(ｽｸﾛｰﾙ:ﾏｳｽｵｰﾊﾞ&UpDownkey), (ﾘｾｯﾄ:ｸﾘｯｸ), (ﾄﾞﾗｯｸﾞ:ｲﾄﾞｳ)"; }
+        for (int i = 0; i < 16; i++) { s += "(ｽｸﾛｰﾙ:ﾏｳｽｵｰﾊﾞ&UpDownkey), (ﾘｾｯﾄ:ｸﾘｯｸ), (ｲﾄﾞｳ:ﾄﾞﾗｯｸﾞ)"; }
         self.SlowText(s, 0.01f);
     }
 

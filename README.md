@@ -1,5 +1,6 @@
 # E512TileMap
-- Unity5.5.0fで作成
+- Unity2017.2のTileMap機能ではありません
+- Unity5.5.0fで作成しました
 - E512TileMap.unitypackage
 
 # 機能
@@ -33,5 +34,14 @@ resourcesavedataのload editor, pc, android, webgl
 - タイルGUI  
 未完成
   
+# 使って作ったゲーム
+- 第２３回あほげー お題:半分  
+http://mogera.jp/gameplay?gid=gm0000003357
+- 第３回unity1week お題:積む  
+https://unityroom.com/games/ebicochineal_unity1week003
+- 第１回unity1week お題:跳ねる  
+https://unityroom.com/games/ebicochineal_unity1week001
+
+# Gif Image
 ![Gif](https://raw.githubusercontent.com/ebicochineal/Images/master/0.gif)
 ![Gif](https://raw.githubusercontent.com/ebicochineal/Images/master/12345.gif)

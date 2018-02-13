@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SingleTileObject {
-    static private Shader s_tile = Shader.Find("Custom/Tile");
+    private static Shader s_tile = Shader.Find("Custom/Tile");
 
-    static public GameObject CreateSingleTileMap (E512TilePalette palette, int index) {
+    public static GameObject CreateSingleTileMap (E512TilePalette palette, int index) {
         var quad = GameObject.CreatePrimitive(PrimitiveType.Quad);
         var mat = new Material(SingleTileObject.s_tile);
         
@@ -19,8 +19,4 @@ public class SingleTileObject {
         
         return quad;
     }
-    
-
-
-
 }
