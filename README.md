@@ -1,7 +1,7 @@
 # E512TileMap
 - Unity2017.2のTileMap機能ではありません
 - Unity5.5.0fで作成しました
-- E512TileMap.unitypackage
+- E512TileMap.unitypackageをインポートして使います
 
 # 機能
 - 広さ制限のないタイルマップ  
