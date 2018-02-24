@@ -2,6 +2,9 @@
 - Unity2017.2のTileMap機能ではありません
 - Unity5.5.0fで作成しました
 - E512TileMap.unitypackageをインポートして使います
+- font_to_image.py GUIで使う文字テクスチャをttfファイルから生成 python3  
+pip install pillow  
+font_to_image.py ttf_file_path fontsize8-128  
 
 # 機能
 - 広さ制限のないタイルマップ  
