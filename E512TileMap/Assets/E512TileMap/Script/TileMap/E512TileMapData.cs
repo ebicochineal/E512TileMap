@@ -452,7 +452,7 @@ public class E512TileMapData : MonoBehaviour {
     }
     
     public string GetSavePath () {
-        string path = this.save == E512TileSave.ResourcesSave ? Application.dataPath + "/Resources": Application.persistentDataPath;
+        string path = this.save == E512TileSave.ResourcesSave ? Application.dataPath + "/E512TileMap/Resources": Application.persistentDataPath;
         path += "/TileMapDataSave/" + (this.save_dir == "" ? "temp" : this.save_dir) + "/";
         return path;
     }
