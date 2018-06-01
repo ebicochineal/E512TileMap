@@ -39,7 +39,7 @@ resourcesavedataのload editor, pc, android, webgl
 未完成(使えないこともないと思う)
   
 # 使って作ったゲーム
-- パーティクル素材を使った。デモの炎より豪華なバージョン
+- パーティクル素材を使った。デモの炎より豪華なバージョン  
 https://ebicochineal.github.io/WebPage/ebifire/
 - 第２３回あほげー お題:半分  
 http://mogera.jp/gameplay?gid=gm0000003357
