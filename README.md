@@ -51,3 +51,7 @@ https://unityroom.com/games/ebicochineal_unity1week001
 # Gif Image
 ![Gif](https://raw.githubusercontent.com/ebicochineal/Images/master/0.gif)
 ![Gif](https://raw.githubusercontent.com/ebicochineal/Images/master/12345.gif)
+
+
+## License
+MIT
