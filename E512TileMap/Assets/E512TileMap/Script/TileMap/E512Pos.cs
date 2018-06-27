@@ -104,14 +104,14 @@ public struct E512Pos : IEquatable<E512Pos> {
     }
 }
 
-public static class MTileMapPosExtensions {
-    public static E512Pos ToMPos (this Vector2 v) {
+public static class E512PosExtensions {
+    public static E512Pos ToE512Pos (this Vector2 v) {
         int ix = v.x < 0 ? ((int)v.x) - 1 : (int)v.x;
         int iy = v.y < 0 ? ((int)v.y) - 1 : (int)v.y;
         return new E512Pos(ix, iy);
     }
 
-    public static E512Pos ToMPos (this Vector3 v) {
+    public static E512Pos ToE512Pos (this Vector3 v) {
         int ix = v.x < 0 ? ((int)v.x) - 1 : (int)v.x;
         int iy = v.y < 0 ? ((int)v.y) - 1 : (int)v.y;
         return new E512Pos(ix, iy);

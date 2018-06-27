@@ -24,7 +24,7 @@ public class TestDraw : MonoBehaviour {
 
         // 右クリック　タイルをコピー
         if (Input.GetMouseButtonDown(1) && Input.mousePosition.y < Screen.height - 24) {
-            E512Pos p = Camera.main.ScreenToWorldPoint(Input.mousePosition).ToMPos();
+            E512Pos p = Camera.main.ScreenToWorldPoint(Input.mousePosition).ToE512Pos();
             E512TilePen.index = this.map.GetTile(p, this.layer);
         }
 
@@ -35,8 +35,8 @@ public class TestDraw : MonoBehaviour {
         }
         if (Input.GetMouseButtonUp(0) && Input.mousePosition.y < Screen.height - 24 && this.m) {
             this.m = false;
-            E512Pos s = Camera.main.ScreenToWorldPoint(this.left).ToMPos();
-            E512Pos e = Camera.main.ScreenToWorldPoint(Input.mousePosition).ToMPos();
+            E512Pos s = Camera.main.ScreenToWorldPoint(this.left).ToE512Pos();
+            E512Pos e = Camera.main.ScreenToWorldPoint(Input.mousePosition).ToE512Pos();
             foreach (E512Pos i in E512Pos.BoxList(s, e)) {
                 this.map.SetTile(i, E512TilePen.index, this.layer);// マップ書き換え
             }

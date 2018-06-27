@@ -226,7 +226,7 @@ public class E512TileMapData : MonoBehaviour {
             var nx = (int)(i.orthographicSize * t) + E512Block.SIZE / 2;
             var ny = (int)i.orthographicSize + E512Block.SIZE / 2;
             
-            var cpos = i.transform.position.ToMPos();
+            var cpos = i.transform.position.ToE512Pos();
             var start = new E512Pos(cpos.x - nx, cpos.y - ny);
             var end = new E512Pos(cpos.x + nx, cpos.y + ny);
 

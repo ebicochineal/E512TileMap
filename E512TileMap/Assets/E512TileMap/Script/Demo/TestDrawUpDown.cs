@@ -16,10 +16,10 @@ public class TestDrawUpDown : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         if (Input.GetMouseButton(0)) {
-            this.Up(Camera.main.ScreenToWorldPoint(Input.mousePosition).ToMPos());
+            this.Up(Camera.main.ScreenToWorldPoint(Input.mousePosition).ToE512Pos());
         }
         if (Input.GetMouseButton(1)) {
-            this.Down(Camera.main.ScreenToWorldPoint(Input.mousePosition).ToMPos());
+            this.Down(Camera.main.ScreenToWorldPoint(Input.mousePosition).ToE512Pos());
         }
 
     }
