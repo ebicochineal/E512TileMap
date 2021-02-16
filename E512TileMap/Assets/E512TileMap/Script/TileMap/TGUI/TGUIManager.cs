@@ -9,7 +9,7 @@ public class TGUIManager : MonoBehaviour {
     public static Dictionary<string, TGUIManager> tgui = new Dictionary<string, TGUIManager>();
     public int wdiv = 0;// 横何マスか指定してスケールを調整
     public float scale = 1f;
-    private int snap_size;
+    private int snap_size = 1;
     
     public int w;
     public int h;
@@ -40,63 +40,64 @@ public class TGUIManager : MonoBehaviour {
     void Awake () {
         if (this.wdiv > 0) {
             float t = Screen.width / 16;
-            this.scale = t / wdiv;
+            this.scale = t / this.wdiv;
         }
-
+        this.scale = Math.Max(this.scale, 0.1f);
+        
         TGUIManager.TGUI = this;
         this.snap_size = (int)(16 * this.scale);
         this.w = Screen.width / this.snap_size;
-        this.h = Screen.height / this.snap_size ;
+        this.h = Screen.height / this.snap_size;
     }
     
     void Update () {
         this.MouseOverUpdate();
-
         this.OnButtonEvent();
-
         
+        this.scale = Math.Max(this.scale, 0.001f);
+        this.snap_size = (int)(16 * this.scale);
+        
+        // window click swap last
         if (Input.GetMouseButtonDown(0)) {
             this.press_mouse_pos = Input.mousePosition;
             var index = this.SelectIndex();
-            var l = new List<TGUI>();
-            for (int i = 0; i < this.gui_list.Count; ++i) {
-                if (i != index) { l.Add(this.gui_list[i]); }
-            }
             if (index > -1) {
-                l.Add(this.gui_list[index]);
-                if (this.gui_list[index].move) {
-                    this.drag_pos = this.gui_list[index].pos;
+                for (int i = index; i < this.gui_list.Count-1; ++i) {
+                    var tmp = this.gui_list[i];
+                    this.gui_list[i] = this.gui_list[i+1];
+                    this.gui_list[i+1] = tmp;
+                }
+                if (this.gui_list[this.gui_list.Count-1].move) {
+                    this.drag_pos = this.gui_list[this.gui_list.Count-1].pos;
                     this.is_window_drag = true;
                 }
-                
             }
-            this.gui_list = l;
         }
 
         if (Input.GetMouseButton(0) && this.is_window_drag) {
             var v = Input.mousePosition - this.press_mouse_pos;
             var x = (int)v.x / this.snap_size;
             var y = (int)v.y / this.snap_size;
-            this.ActiveGUI<TGUI>().pos.x = this.drag_pos.x + x;
-            this.ActiveGUI<TGUI>().pos.y = this.drag_pos.y - y;
+            var ac = this.ActiveGUI<TGUI>();
+            if (ac != null) {
+                ac.pos.x = this.drag_pos.x + x;
+                ac.pos.y = this.drag_pos.y - y;
+            }
         }
 
         if (Input.GetMouseButtonUp(0) && this.is_window_drag) {
             this.is_window_drag = false;
-            
-            //this.OrderOnClickEvent(this.ActiveWindow());
         }
-        
     }
 
     void LateUpdate () {
-        this.scale = this.scale < 0.1f ? 0.1f : this.scale;
+        this.scale = Math.Max(this.scale, 0.1f);
         this.snap_size = (int)(16 * this.scale);
         this.w = Screen.width / this.snap_size;
         this.h = Screen.height / this.snap_size;
         var a = Mathf.PI / 180f;
         var b = Camera.main.fieldOfView * 0.5f * a;
-        var s = Mathf.Sin(b) / Mathf.Cos(b) * 0.625f * this.snap_size;
+        var s = Mathf.Sin(b) / Mathf.Max(Mathf.Cos(b), 0.001f) * 0.625f * this.snap_size;
 
         for (int i = 0; i < this.gui_list.Count; i++) {
             this.gui_list[i].z = i;
@@ -106,6 +107,8 @@ public class TGUIManager : MonoBehaviour {
             // GUI拡大縮小
             var cs = s * (1f - 0.1f - 0.01f * i.z) / this.scale;
             if (Camera.main.orthographic) { cs = Camera.main.orthographicSize; }
+            float f = ((float)Screen.height / (float)this.snap_size / 2.0f);
+            f = Mathf.Max(f, 0.001f);
             var v = Vector3.one * cs / ((float)Screen.height / (float)this.snap_size / 2.0f);
             i.root.transform.localScale = v;
 
@@ -114,7 +117,6 @@ public class TGUIManager : MonoBehaviour {
             var p = Camera.main.ScreenToWorldPoint(new Vector3(this.snap_size * i.pos.x, this.snap_size * (this.h - i.pos.y - i.h), 10 - 1f - (0.1f * i.z)));
             i.root.transform.position = p;
         }
-        
     }
 
     public void SortGUI () {
@@ -208,12 +210,10 @@ public class TGUIManager : MonoBehaviour {
     }
     
     private void OnButtonEvent () {
-        if (Vector3.Distance(this.prev_mouse_pos, Input.mousePosition) > 8 ) { this.prev_on_window = null; }// マウスが移動時ボタン無効
+        // マウスが移動時ボタン無効
+        if (Vector3.Distance(this.prev_mouse_pos, Input.mousePosition) > 8 ) { this.prev_on_window = null; }
         this.prev_mouse_pos = Input.mousePosition;
-        
-        if (Input.GetMouseButtonDown(0)) {
-            this.prev_on_window = this.MouseOverGUI<TGUI>();
-        }
+        if (Input.GetMouseButtonDown(0)) { this.prev_on_window = this.MouseOverGUI<TGUI>(); }
         if (Input.GetMouseButtonUp(0)) {
             if (this.prev_on_window == this.MouseOverGUI<TGUI>()) { this.OrderOnClickEvent(this.prev_on_window); }
             this.prev_on_window = null;
@@ -221,9 +221,7 @@ public class TGUIManager : MonoBehaviour {
     }
 
     public void Clean () {
-        foreach (var i in this.gui_list) {
-            i.Destroy();
-        }
+        foreach (var i in this.gui_list) { i.Destroy(); }
         this.gui_list = new List<TGUI>();
     }
 

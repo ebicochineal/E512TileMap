@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class SideViewTGUI : MonoBehaviour {
     TGUIManager tgm;
-    TGUIWindow menu;
+    TGUIWindow action;
+    TGUIWindow help;
 
     void Start () {
         this.tgm = TGUIManager.TGUI;
         var tgp = new TGUIWindowTexture("window16", "font16h");
-        this.menu = this.tgm.AddGUI(new TGUIWindow(12, 4, new E512Pos(0, this.tgm.h - 6), this.ListText(), true, tgp));
+        this.action = this.tgm.AddGUI(new TGUIWindow(9, 4, new E512Pos(0, this.tgm.h - 4), this.ListText(), true, tgp));
+        this.action.onclick += this.ListDown;
 
-        var t = new TGUIWindowTexture("window16", "font16y");
-        this.tgm.AddGUI(new TGUIWindow(48, 2, new E512Pos(0, this.tgm.h - 2), "ｱｸｼｮﾝ:Right,GUIﾃｽﾄ:7,8,9,h,v,\\,ｸﾘｱ:space", true, t));
+        var t = new TGUIWindowTexture("window16", "font16");
+        this.help = this.tgm.AddGUI(new TGUIWindow(19, 4, new E512Pos(9, this.tgm.h - 4), "ｱｸｼｮﾝ:Arrowｷｰ     GUIﾃｽﾄ:7,8,9,h,v,\\GUIｸﾘｱ:space", true, t));
         
     }
 
@@ -22,7 +24,7 @@ public class SideViewTGUI : MonoBehaviour {
     public void ListDown (TGUIWindow self) {
         this.n = (this.n + 1) % this.lis.Count;
         GameObject.Find("EbiCochineal").GetComponent<PlayerSide>().actiontype = n;
-        if (this.tgm.gui_list.IndexOf(this.menu) > -1) {// SpaceキーでGUI削除できるようにしているため
+        if (this.tgm.gui_list.IndexOf(this.action) > -1) {// SpaceキーでGUI削除できるようにしているため
             self.Text = this.ListText();
         }
     }
@@ -30,7 +32,7 @@ public class SideViewTGUI : MonoBehaviour {
     public void ListUp (TGUIWindow self) {
         this.n = (this.n - 1 + this.lis.Count) % this.lis.Count;
         GameObject.Find("EbiCochineal").GetComponent<PlayerSide>().actiontype = n;
-        if (this.tgm.gui_list.IndexOf(this.menu) > -1) {// SpaceキーでGUI削除できるようにしているため
+        if (this.tgm.gui_list.IndexOf(this.action) > -1) {// SpaceキーでGUI削除できるようにしているため
             self.Text = this.ListText();
         }
     }
@@ -40,11 +42,11 @@ public class SideViewTGUI : MonoBehaviour {
         for (int i = 0; i < this.lis.Count; i++) {
             var t = this.lis[i];
             if (i == this.n) {
-                t = "[" + t + "]";
+                t = ">" + t;
             } else {
                 t = " " + t;
             }
-            s += t + this.Space(11 - t.Length);
+            s += t + this.Space(8 - t.Length);
         }
         return s;
     }
@@ -67,10 +69,10 @@ public class SideViewTGUI : MonoBehaviour {
         //if (Input.GetKeyDown(KeyCode.RightArrow) && ac != null) {
         //    ac.NextTextPage();
         //}
-        if (Input.GetKey(KeyCode.UpArrow) && mo != null && mo != this.menu) {
+        if (Input.GetKey(KeyCode.UpArrow) && mo != null && mo != this.action && mo != this.help) {
             mo.PrevTextLine();
         }
-        if (Input.GetKey(KeyCode.DownArrow) && mo != null && mo != this.menu) {
+        if (Input.GetKey(KeyCode.DownArrow) && mo != null && mo != this.action && mo != this.help) {
             mo.NextTextLine();
         }
         if (Input.GetKeyDown(KeyCode.V)) {
@@ -83,17 +85,18 @@ public class SideViewTGUI : MonoBehaviour {
             this.tgm.Slanting();
         }
         
-        if (Input.GetKeyDown(KeyCode.DownArrow)) {
-            this.ListDown(this.menu);
+        
+        if (Input.GetKeyDown(KeyCode.DownArrow) && (mo == null || mo == this.action)) {
+            this.ListDown(this.action);
         }
         
-        if (Input.GetKeyDown(KeyCode.UpArrow)) {
-            this.ListUp(this.menu);
+        if (Input.GetKeyDown(KeyCode.UpArrow) && (mo == null || mo == this.action)) {
+            this.ListUp(this.action);
         }
         
         if (Input.GetKeyDown(KeyCode.Alpha9)) {
-            var tgp = new TGUIWindowTexture("window16", "font16h");
-            var t = this.tgm.AddGUI(new TGUIWindow(new E512Pos(), "Off", true, tgp));
+            var tgp = new TGUIWindowTexture("window8", "font8");
+            var t = this.tgm.AddGUI(new TGUIWindow(new E512Pos(), "off", true, tgp));
             t.onclick += this.Button;
             this.tgm.Horizontal(new E512Pos(), true);
         }
@@ -120,10 +123,10 @@ public class SideViewTGUI : MonoBehaviour {
     }
 
     public void Button (TGUIWindow self) {
-        if (self.Text == "Off") {
-            self.Text = "On";
+        if (self.Text == "off") {
+            self.Text = "on";
         } else {
-            self.Text = "Off";
+            self.Text = "off";
         }
     }
 
