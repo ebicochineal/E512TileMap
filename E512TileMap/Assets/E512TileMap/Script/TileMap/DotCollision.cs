@@ -352,7 +352,7 @@ public class DotCollision : DotMove {
         var bu = b.dpy + b.halfheight - 1;
         if (al > br || bl > ar) { return false; }
         if (ad > bu || bd > au) { return false; }
-        return false;
+        return true;
     }
 
     public TileCollisionType GetCollision (E512Pos cpos) {
