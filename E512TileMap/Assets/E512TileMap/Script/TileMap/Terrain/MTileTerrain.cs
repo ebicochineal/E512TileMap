@@ -3,6 +3,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
+// タイルマップの初期化、生成
+// GetTileLight 0明、32暗
 public class E512TileTerrain : MonoBehaviour {
     
     private Dictionary<E512Pos, E512Block> dict_mapdata = new Dictionary<E512Pos, E512Block>();// マップブロックデータ辞書
@@ -23,8 +25,9 @@ public class E512TileTerrain : MonoBehaviour {
         return path;
     }
     
-    // MapData Awake Call セーブされているBPos登録
+    // MapData Awake, Call セーブされているBPos登録
     public void Init () {
+        this.TerrainAwake();
         if (this.load_dir == "") { this.load_dir = "temp"; }
         this.path = this.GetSavePath();
         if (this.save == E512TileSave.ResourcesSave) { this.ResourcesInit(); }
@@ -146,7 +149,6 @@ public class E512TileTerrain : MonoBehaviour {
         
         this.dict_mapdata.Add(bpos, b);
     }
-
     public int LoadTileIndex (E512Pos cpos, int layer) {
         E512Pos bpos = E512Block.BPos(cpos);
         if (!this.data_block.Contains(bpos)) { return this.GetTileIndex(cpos, layer); }
@@ -173,8 +175,19 @@ public class E512TileTerrain : MonoBehaviour {
         E512Pos blpos = E512Block.BLocalPos(cpos);
         return b.GetTileLight(blpos.x, blpos.y);
     }
-
+    
+    public int CalcAutoTileIndex (E512Pos cpos, int layer) {
+        int r = 0;
+        int[] indexarray9 = this.AdjacentTileIndex(cpos, layer);
+        bool[] boolarray = E512AutoTile.BoolArray(indexarray9);
+        int[] indexarray4 = E512AutoTile.BoolArrayToIndexArray(boolarray);
+        r = E512AutoTile.IndexArrayToInt(indexarray4);
+        return r;
+    }
+    
     public virtual int GetTileIndex (E512Pos cpos, int layer) { return 1; }
-    public virtual int GetAutoTileIndex (E512Pos cpos, int layer) { return 0; }
+    public virtual int GetAutoTileIndex (E512Pos cpos, int layer) { return this.CalcAutoTileIndex(cpos, layer); }
     public virtual int GetTileLight (E512Pos cpos) { return 0; }
+    
+    public virtual void TerrainAwake () {}
 }

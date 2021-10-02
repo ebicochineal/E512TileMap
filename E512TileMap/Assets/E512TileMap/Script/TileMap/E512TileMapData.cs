@@ -12,7 +12,7 @@ public class E512TileMapData : MonoBehaviour {
     [SerializeField]
     public E512TilePalette palette;
     [SerializeField]
-    public int layer = 0;
+    public int layer = 1;
     [SerializeField]
     private int x = 32;
     [SerializeField]
@@ -31,7 +31,7 @@ public class E512TileMapData : MonoBehaviour {
     [NonSerialized]
     public E512TileManager tilemanager;
 
-    public E512TileTerrain terrain;
+    public E512TileTerrain terrain = null;
 
     private Dictionary<E512Pos, E512Block> dict_mapdata = new Dictionary<E512Pos, E512Block>();// マップブロックデータ辞書
     private Dictionary<E512Pos, GameObject[]> dict_draw = new Dictionary<E512Pos, GameObject[]>();// ドロー辞書
@@ -66,13 +66,10 @@ public class E512TileMapData : MonoBehaviour {
         QualitySettings.antiAliasing = 0;// すべてのグラフィックでアンチエイリアシング オフ
 
         if (this.ismap) { E512TileMapData.SceneMap = this; }
-
-        E512TileTerrain terrain = this.gameObject.GetComponent<E512TileTerrain>();
-        if (terrain) {
-            this.terrain = terrain;
-        } else {
-            this.terrain = this.gameObject.AddComponent<E512TileTerrain>();
-        }
+        
+        if (this.terrain == null) { this.terrain = this.gameObject.GetComponent<E512TileTerrain>(); }
+        if (this.terrain == null) { this.terrain = this.gameObject.AddComponent<E512TileTerrain>(); }
+        
         this.terrain.Init();
         this.data_block = this.terrain.data_block;
         if (this.save_dir == "") { this.save_dir = "temp"; }

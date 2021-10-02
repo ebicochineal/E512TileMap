@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TMandelbrot : E512TileTerrain {
-    public int index = 1;
-    int tmp = 0; 
+    public float scale = 0.00001f;
+    int tmp = 0;
     public override int GetTileIndex (E512Pos cpos, int layer) {
         if (layer > 0) { return E512Tile.Blank; }
-        var x = cpos.x * 0.00001f;
-        var y = cpos.y * 0.00001f;
+        var x = cpos.x * scale;
+        var y = cpos.y * scale;
         var px = x;
         var py = y;
         Vector2 z = Vector2.zero;

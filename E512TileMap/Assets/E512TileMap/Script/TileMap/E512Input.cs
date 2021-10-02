@@ -3,6 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class E512Input {
+    
+    public static void CameraWASDArrowMove (float movespeed) {
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) { Camera.main.transform.position += new Vector3(0f, movespeed, 0f); }
+        if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)) { Camera.main.transform.position += new Vector3(0f, -movespeed, 0f); }
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)) { Camera.main.transform.position += new Vector3(-movespeed, 0f, 0f); }
+        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)) { Camera.main.transform.position += new Vector3(movespeed, 0f, 0f); }
+    }
+    
     public static void CameraWASDMove (float movespeed) {
         if (Input.GetKey(KeyCode.W)) { Camera.main.transform.position += new Vector3(0f, movespeed, 0f); }
         if (Input.GetKey(KeyCode.S)) { Camera.main.transform.position += new Vector3(0f, -movespeed, 0f); }

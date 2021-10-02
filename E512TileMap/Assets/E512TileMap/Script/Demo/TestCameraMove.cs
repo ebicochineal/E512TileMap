@@ -10,7 +10,7 @@ public class TestCameraMove : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        E512Input.CameraArrowMove(1f);
+        E512Input.CameraWASDArrowMove(1f);
         if (Application.platform == RuntimePlatform.Android) {
             E512Input.CameraMouseLeftMove();
         }
