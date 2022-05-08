@@ -19,7 +19,7 @@ public class DotMove : MonoBehaviour {
     public int halfheight = 8;
 
     public  float dotsize;
-    protected int tilesize;
+    protected int tilesize = 1;
     protected int halftilesize;
 
     public int cpx { get { return this.DotCPos(this.dpx); } }

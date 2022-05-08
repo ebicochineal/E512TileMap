@@ -48,6 +48,8 @@ public class E512TileMapData : MonoBehaviour {
         set {
             if (!E512TileMapData.scenemap.ContainsKey(SceneManager.GetActiveScene().name)) {
                 E512TileMapData.scenemap.Add(SceneManager.GetActiveScene().name, value);
+            } else {
+                E512TileMapData.scenemap[SceneManager.GetActiveScene().name] = value;
             }
         }
         get { return E512TileMapData.scenemap[SceneManager.GetActiveScene().name]; }
@@ -367,21 +369,18 @@ public class E512TileMapData : MonoBehaviour {
     /// <summary>
     /// オートタイル修正　withother true 違うタイルも含める false同じオートタイルのみ変化させたい場合
     /// </summary>
-    public void FixAutoTile (E512Pos cpos, int layer, bool withother = true) {
+    public void FixAutoTile (E512Pos cpos, int layer, bool withother = true, bool outside_connect = true) {
         if (!this.InSide(cpos)) { return; }
         int target = this.GetTile(cpos, layer);
         foreach (E512Pos i in E512Pos.BoxList(cpos - 1, cpos + 1)) {// cpos周辺
             E512Pos bpos = E512Block.BPos(i);
-            if (!this.dict_mapdata.ContainsKey(bpos)) {
-                this.AddBlock(bpos);
-            }
-            int[] s = AdjacentTileIndex(i, layer);
+            if (!this.dict_mapdata.ContainsKey(bpos)) { this.AddBlock(bpos); }
+            int[] s = this.AdjacentTileIndex(i, layer);
             if (withother || s[4] == target) {
-                int ati = E512AutoTile.IndexInt(s);
+                int ati = E512AutoTile.IndexInt(s, outside_connect);
                 E512Pos blpos = E512Block.BLocalPos(i);
                 E512Block b = this.dict_mapdata[bpos];
                 b.SetAutoTileIndex(ati, layer, blpos.x, blpos.y);
-
                 this.UVUpdateBlockAdd(bpos);
             }
         }

@@ -5,11 +5,13 @@ using UnityEngine;
 [RequireComponent(typeof(DotCollision))]
 public class CellMove : MonoBehaviour {
     private DotCollision collision;
-    public bool ismove = false;
     public bool avoid = false;
     public int wait = 0;
     public int speed = 2;
     public int dist = 8;
+    
+    public int cx = 0;
+    public int cy = 0;
     
     private int twait = 0;
     private int counter = 0;
@@ -25,14 +27,30 @@ public class CellMove : MonoBehaviour {
     public const int Right = 4;
     public const int Down = 16;
     public const int Left = 64;
-
+    
+    [HideInInspector]
+    public bool ismovestart = false;
+    [HideInInspector]
+    public bool ismove = false;
+    
+    
     // Use this for initialization
     void Start () {
         this.collision = this.GetComponent<DotCollision>();
+        
+        this.UpdateCPos();
     }
-
+    
+    private void UpdateCPos () {
+        this.cx = this.collision.cpx;
+        this.cy = this.collision.cpy;
+    }
+    
+    
     // Update is called once per frame
     public void Move () {
+        this.ismovestart = false;
+        
         this.SurroundingCollision();
         this.SetOrder();
         this.order = 0;
@@ -53,6 +71,8 @@ public class CellMove : MonoBehaviour {
         } else {
             this.twait -= 1;
         }
+        
+        this.UpdateCPos();
     }
 
     public int GetDirection () {
@@ -67,6 +87,7 @@ public class CellMove : MonoBehaviour {
         this.xlast = this.dist % this.speed;
         this.x = this.speed;
         this.ismove = true;
+        this.ismovestart = true;
     }
 
     public void SetLeft () {
@@ -75,6 +96,7 @@ public class CellMove : MonoBehaviour {
         this.xlast = -(this.dist % this.speed);
         this.x = -this.speed;
         this.ismove = true;
+        this.ismovestart = true;
     }
 
     public void SetUp () {
@@ -83,6 +105,7 @@ public class CellMove : MonoBehaviour {
         this.ylast = this.dist % this.speed;
         this.y = this.speed;
         this.ismove = true;
+        this.ismovestart = true;
     }
 
     public void SetDown () {
@@ -91,6 +114,7 @@ public class CellMove : MonoBehaviour {
         this.ylast = -(this.dist % this.speed);
         this.y = -this.speed;
         this.ismove = true;
+        this.ismovestart = true;
     }
 
     private void SetLastAxis () {

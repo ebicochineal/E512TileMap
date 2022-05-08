@@ -157,20 +157,28 @@ public class E512AutoTile {
     /// 中心[4]と同じかどうかboolで:BoolArray
     /// int[9]からBoolArray
     /// </summary>
-    public static bool[] BoolArray (int[] array) {
+    public static bool[] BoolArray (int[] array, bool outside_connect = true) {
         bool[] r = new bool[9];
-        for (int i = 0; i < 9; ++i) {
-            // indexまたは外側ならtrue
-            r[i] = (array[4] == array[i] || E512Tile.OutSide == array[i]) ? true : false;
+        if (outside_connect) {
+            for (int i = 0; i < 9; ++i) {
+                // 中心のindexまたは外側ならtrue
+                r[i] = (array[4] == array[i] || E512Tile.OutSide == array[i]);
+            }
+        } else {
+            for (int i = 0; i < 9; ++i) {
+                r[i] = (array[4] == array[i]);
+            }
         }
+        
+        
         return r;
     }
 
     /// <summary>
     /// int[9]からAutoTileIndexIntに変換して返します
     /// </summary>
-    public static int IndexInt (int[] array) {
-        bool[] boolarray = E512AutoTile.BoolArray(array);
+    public static int IndexInt (int[] array, bool outside_connect) {
+        bool[] boolarray = E512AutoTile.BoolArray(array, outside_connect);
         int[] indexarray = E512AutoTile.BoolArrayToIndexArray(boolarray);
         return E512AutoTile.IndexArrayToInt(indexarray);
     }

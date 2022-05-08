@@ -8,7 +8,7 @@ public class PaletteEditor : EditorWindow {
     [MenuItem("E512TileEditor/PaletteEditor")]
     public static void ShowWindow () {
         PaletteEditor window = EditorWindow.GetWindow<PaletteEditor>();
-        window.position = new Rect(64, 64, 512, 512);
+        window.position = new Rect(64, 64, 512, 512+256);
     }
 
     private bool play_status = false;
