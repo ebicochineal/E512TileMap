@@ -6,6 +6,8 @@ public class BrightManager : MonoBehaviour {
     public HashSet<E512Pos> brights = new HashSet<E512Pos>();
     private Dictionary<E512Pos, int> dbrights = new Dictionary<E512Pos, int>();
     public E512TileMapData map;
+    public float v = 4f;
+    public int limitlevel = 32;
     float timer = 0;
 
     void Start () {
@@ -13,13 +15,13 @@ public class BrightManager : MonoBehaviour {
 
     void Update () {
         this.timer += Time.deltaTime;
-        if (this.timer > 4f / E512Tile.BrightLevel) {
+        if (this.timer > this.v / E512Tile.BrightLevel) {
             this.timer = 0;
             HashSet<E512Pos> brights = new HashSet<E512Pos>();
             foreach (var i in this.brights) {
-                var v = this.map.GetTileLight(i) + 1;
+                int v = Mathf.Min(this.map.GetTileLight(i) + 1, this.limitlevel);
                 this.map.SetTileLight(i, Mathf.Min(v, E512Tile.BrightLevel));
-                if (v < E512Tile.BrightLevel) { brights.Add(i); }
+                if (v < E512Tile.BrightLevel && v < this.limitlevel) { brights.Add(i); }
             }
             this.brights = brights;
         } else {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(DotCollision))]
 public class CellMove : MonoBehaviour {
-    private DotCollision collision;
+    public DotCollision collision;
     public bool avoid = false;
     public int wait = 0;
     public int speed = 2;
@@ -33,12 +33,20 @@ public class CellMove : MonoBehaviour {
     [HideInInspector]
     public bool ismove = false;
     
+    bool init = false;
+    
     
     // Use this for initialization
     void Start () {
-        this.collision = this.GetComponent<DotCollision>();
-        
-        this.UpdateCPos();
+        this.Init();
+    }
+    
+    public void Init () {
+        if (!this.init) {
+            this.collision = this.GetComponent<DotCollision>();
+            this.UpdateCPos();
+            this.init = true;
+        }
     }
     
     private void UpdateCPos () {

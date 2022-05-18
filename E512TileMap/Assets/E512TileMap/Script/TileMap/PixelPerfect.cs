@@ -6,9 +6,10 @@ public class PixelPerfect : MonoBehaviour {
     public int pixels_per_unit = 100;
     public float scale = 1f;
     private Camera cam;
-    
     void Start () {
-        this.cam = GetComponent<Camera>();
+        this.cam = this.GetComponent<Camera>();
+        
+        
     }
 
     //void OnPreRender() {
@@ -19,7 +20,11 @@ public class PixelPerfect : MonoBehaviour {
 
     void Update () {
         if (this.cam) {
-            this.cam.orthographicSize = (float)Screen.height / (float)this.pixels_per_unit / 2.0f / this.scale;
+            if (this.cam.targetTexture != null) {
+                this.cam.orthographicSize = (float)this.cam.targetTexture.height / (float)this.pixels_per_unit / 2.0f / this.scale;
+            } else {
+                this.cam.orthographicSize = (float)Screen.height / (float)this.pixels_per_unit / 2.0f / this.scale;
+            }
         }
     }
 }

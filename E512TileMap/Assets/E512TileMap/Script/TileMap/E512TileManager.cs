@@ -138,15 +138,35 @@ public class E512TileManager {
         uv[index + 2] = new Vector2(left, up);
         uv[index + 3] = new Vector2(right, down);
     }
-
-
-    public void SetUV (Vector2[] uv, int index, E512Tile t, int p) {
-        uv[index] = t.pos[0, 0, 0];
-        uv[index + 1] = t.pos[0, 0, 0];
-        uv[index + 2] = t.pos[0, 0, 0];
-        uv[index + 3] = t.pos[0, 0, 0];
+    
+    public void SetUV (Vector2[] uv, int index, E512Tile t, int light) {
+        float xpx = t.x * this.px;
+        float ypy = t.y * this.py;
+        float right = this.px + xpx + t.anim - 0.00001f;
+        float left = xpx + t.anim + 0.00001f;
+        float up = 1f - ypy;
+        float down = 1f - this.py - ypy;
         
+        uv[index] = new Vector2(right, up);
+        uv[index + 1] = new Vector2(left, down);
+        uv[index + 2] = new Vector2(left, up);
+        uv[index + 3] = new Vector2(right, down);
+        
+        uv[index].y += light;
+        uv[index + 1].y += light;
+        uv[index + 2].y += light;
+        uv[index + 3].y += light;
     }
+    
+    
+    
+    // public void SetUV (Vector2[] uv, int index, E512Tile t, int p) {
+    //     uv[index] = t.pos[0, 0, 0];
+    //     uv[index + 1] = t.pos[0, 0, 0];
+    //     uv[index + 2] = t.pos[0, 0, 0];
+    //     uv[index + 3] = t.pos[0, 0, 0];
+        
+    // }
 
     public Texture2D GetTileTexture (int index) {
         if (this.images.ContainsKey(index)) { return this.images[index]; }

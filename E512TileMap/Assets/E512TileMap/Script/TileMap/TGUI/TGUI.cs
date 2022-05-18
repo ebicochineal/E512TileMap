@@ -267,25 +267,26 @@ public class TGUIWindow : TGUI{
         }
     }
     
-    public void SlowText (string text, float time) {
+    public void SlowText (string text, float time, float new_line_time = 0.1f) {
         if (this.slow_message_coroutine != null) {
             this.tdata.StopCoroutine(this.slow_message_coroutine);
         }
-        this.slow_message_coroutine = this.SlowTextCoroutine(text, time);
+        this.slow_message_coroutine = this.SlowTextCoroutine(text, time, new_line_time);
         this.tdata.StartCoroutine(this.slow_message_coroutine);
     }
 
-    private IEnumerator SlowTextCoroutine (string text, float time) {
+    private IEnumerator SlowTextCoroutine (string text, float time, float new_line_time) {
         this.Text = "";
         foreach (var i in text) {
             this.Text += i;
             if (this.Text.Length % (this.tw - 1) == 0) {
-                yield return new WaitForSeconds(time * 32);
+                yield return new WaitForSeconds(time + new_line_time);
             } else {
                 yield return new WaitForSeconds(time);
             }
         }
     }
+    
 
     public override void Destroy () {
         if (this.slow_message_coroutine != null) {

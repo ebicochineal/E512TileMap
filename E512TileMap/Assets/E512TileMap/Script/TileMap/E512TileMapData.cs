@@ -30,7 +30,9 @@ public class E512TileMapData : MonoBehaviour {
 
     [NonSerialized]
     public E512TileManager tilemanager;
-
+    
+    public bool onceEveryTwoDraw = true;
+    
     public E512TileTerrain terrain = null;
 
     private Dictionary<E512Pos, E512Block> dict_mapdata = new Dictionary<E512Pos, E512Block>();// マップブロックデータ辞書
@@ -114,8 +116,14 @@ public class E512TileMapData : MonoBehaviour {
     //}
     int frame;
     void Update () {
-        if (this.frame % 2 == 0) { this.Draw(); }
-        if (this.frame % 2 == 1) { this.UVUpdate(); }
+        if (this.onceEveryTwoDraw) {
+            if (this.frame % 2 == 0) { this.Draw(); }
+            if (this.frame % 2 == 1) { this.UVUpdate(); }
+        } else {
+            this.Draw();
+            this.UVUpdate();
+        }
+        
         if (this.frame == 0 && this.save == E512TileSave.AutoSave) {
             if (this.Save()) { print("AutoSave"); }
         }
@@ -174,8 +182,9 @@ public class E512TileMapData : MonoBehaviour {
     private GameObject[] CreateGameObject (E512Pos bpos) {
         GameObject[] objs = new GameObject[this.layer];
         if (this.objectpool.Count > 0) {// オブジェクトプールから
-            objs = this.objectpool[0];
-            this.objectpool.RemoveAt(0);
+            int index = this.objectpool.Count - 1;// 末尾
+            objs = this.objectpool[index];
+            this.objectpool.RemoveAt(index);
             for (int i = 0; i < this.layer; ++i) {
                 objs[i].name = string.Format("Map [{0}, {1}] Layer{2}", bpos.x, bpos.y, i + 1);
                 objs[i].transform.localPosition = new Vector3((float)(bpos.x * E512Block.SIZE), (float)(bpos.y * E512Block.SIZE), -0.1f * i);
