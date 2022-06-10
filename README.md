@@ -47,6 +47,10 @@ http://mogera.jp/gameplay?gid=gm0000003357
 https://unityroom.com/games/ebicochineal_unity1week003
 - 第１回unity1week お題:跳ねる  
 https://unityroom.com/games/ebicochineal_unity1week001
+- Unity 1週間ゲームジャム お題「そろえる」
+https://unityroom.com/games/ebicochineal_unity1week202205a
+- Unity 1週間ゲームジャム お題「そろえる」
+https://unityroom.com/games/ebicochineal_unity1week202205b
 
 # Gif Image
 ![Gif](https://raw.githubusercontent.com/ebicochineal/Images/master/0.gif)
