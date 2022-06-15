@@ -6,11 +6,13 @@ using UnityEngine.SceneManagement;
 public class DotCollision : DotMove {
     public E512TileMapData map;
     public int layer = 0;
-
+    
     [HideInInspector]
     public float gravity;
     [HideInInspector]
     public bool isground;
+    
+    private bool pignore = false;
     
     void Start () {
         this.Init();
@@ -165,6 +167,7 @@ public class DotCollision : DotMove {
             int u = doty + this.halfheight - 1;
             int t = d;
             foreach (var i in cols) {
+                if (i.gameObject.GetInstanceID() == this.gameObject.GetInstanceID()) { continue; }
                 if (DotCollision.AABBTest(l, r, d, u, i)) {
                     int idpy = i.dpy + i.halfheight;
                     t = idpy > t ? idpy : t;
@@ -203,6 +206,7 @@ public class DotCollision : DotMove {
             int u = mvdoty + this.halfheight - 1;
             int t = u;
             foreach (var i in cols) {
+                if (i.gameObject.GetInstanceID() == this.gameObject.GetInstanceID()) { continue; }
                 if (DotCollision.AABBTest(l, r, d, u, i)) {
                     int idpy = i.dpy - i.halfheight;
                     t = idpy < t ? idpy : t;
@@ -259,6 +263,7 @@ public class DotCollision : DotMove {
             int u = doty + this.halfheight - 1;
             int t = d;
             foreach (var i in cols) {
+                if (i.gameObject.GetInstanceID() == this.gameObject.GetInstanceID()) { continue; }
                 if (DotCollision.AABBTest(l, r, d, u, i)) {
                     int idpy = i.dpy + i.halfheight;
                     t = idpy > t ? idpy : t;
@@ -299,6 +304,7 @@ public class DotCollision : DotMove {
             int u = mvdoty + this.halfheight - 1;
             int t = u;
             foreach (var i in cols) {
+                if (i.gameObject.GetInstanceID() == this.gameObject.GetInstanceID()) { continue; }
                 if (DotCollision.AABBTest(l, r, d, u, i)) {
                     int idpy = i.dpy - i.halfheight;
                     t = idpy < t ? idpy : t;
@@ -348,6 +354,7 @@ public class DotCollision : DotMove {
             int u = doty + this.halfheight - 1;
             int t = l;
             foreach (var i in cols) {
+                if (i.gameObject.GetInstanceID() == this.gameObject.GetInstanceID()) { continue; }
                 if (DotCollision.AABBTest(l, r, d, u, i)) {
                     int idpx = i.dpx + i.halfwidth;
                     t = idpx > t ? idpx : t;
@@ -388,6 +395,7 @@ public class DotCollision : DotMove {
             int u = doty + this.halfheight - 1;
             int t = r;
             foreach (var i in cols) {
+                if (i.gameObject.GetInstanceID() == this.gameObject.GetInstanceID()) { continue; }
                 if (DotCollision.AABBTest(l, r, d, u, i)) {
                     int idpx = i.dpx - i.halfwidth;
                     t = idpx < t ? idpx : t;
@@ -579,6 +587,428 @@ public class DotCollision : DotMove {
         this.FixPos();
         return iscol;
     }
+    
+    public void PushMoveX (float v, List<DotCollision> cols, int cnt = 8) {
+        for (int i = 0; i < cols.Count - 1; ++i) {
+            for (int j = i + 1; j < cols.Count; ++j) {
+                if (DotCollision.AABBTest(cols[i], cols[j])) {
+                    cols[i].pignore = true;
+                    cols[j].pignore = true;
+                }
+            }
+        }
+        
+        int tdx = this.dpx;
+        int ndx = this.ToDot(this.px + v);
+        int mv = Mathf.Abs(tdx-ndx);
+        float f = (this.px + v) % this.dotsize;
+        
+        if (this.pignore) {
+            this.px += v;
+            this.dpx = this.ToDot(this.px);
+            this.FixPos();
+        } else {
+            if (v < 0) {
+                int tmv = this.PushMoveLeft(mv, cols, cnt);
+                this.px = this.dpx * this.dotsize;
+                this.px += f;
+                this.FixPos();
+            }
+            if (v > 0) {
+                int tmv = this.PushMoveRight(mv, cols, cnt);
+                this.px = this.dpx * this.dotsize;
+                this.px += f;
+                this.FixPos();
+            }
+        }
+        
+        for (int i = 0; i < cols.Count; ++i) { cols[i].pignore = false; }
+    }
+    public void PushMoveY (float v, List<DotCollision> cols, int cnt = 8) {
+        for (int i = 0; i < cols.Count - 1; ++i) {
+            for (int j = i + 1; j < cols.Count; ++j) {
+                if (DotCollision.AABBTest(cols[i], cols[j])) {
+                    cols[i].pignore = true;
+                    cols[j].pignore = true;
+                }
+            }
+        }
+        
+        
+        
+        int tdy = this.dpy;
+        int ndy = this.ToDot(this.py + v);
+        int mv = Mathf.Abs(tdy-ndy);
+        float f = (this.py + v) % this.dotsize;
+        
+        if (this.pignore) {
+            this.py += v;
+            this.dpy = this.ToDot(this.py);
+            this.FixPos();
+        } else {
+            if (v < 0) {
+                int tmv = this.PushMoveDown(mv, cols, cnt);
+                this.py = this.dpy * this.dotsize;
+                this.py += f;
+                this.FixPos();
+            }
+            if (v > 0) {
+                int tmv = this.PushMoveUp(mv, cols, cnt);
+                this.py = this.dpy * this.dotsize;
+                this.py += f;
+                this.FixPos();
+            }
+        }
+        for (int i = 0; i < cols.Count; ++i) { cols[i].pignore = false; }
+        
+    }
+    public int PushMoveRight (int mv, List<DotCollision> cols, int cnt = 0) {
+        if (cnt < 0) { return 0; }
+        int l = this.dpx - this.halfwidth;
+        int r = this.dpx + mv + this.halfwidth - 1;
+        int d = this.dpy - this.halfheight;
+        int u = this.dpy + this.halfheight - 1;
+        int cl = this.DotCPos(l);
+        int cr = this.DotCPos(r);
+        int cd = this.DotCPos(d);
+        int cu = this.DotCPos(u);
+        
+        mv = Mathf.Max(mv - this.CollisionRightDiff(r, cl, cr, cd, cu), 0);
+        if (mv == 0) { return 0; }
+        
+        r = this.dpx + mv + this.halfwidth - 1;
+        
+        int minmv = mv;
+        foreach (var i in cols) {
+            if (i.pignore) { continue; }
+            if (i.gameObject.GetInstanceID() == this.gameObject.GetInstanceID()) { continue; }
+            if (DotCollision.AABBTest(l, r, d, u, i)) {
+                int il = i.dpx - i.halfwidth;
+                int imv = (r + 1) - il;
+                imv = i.VPushMoveRight(imv, cols, cnt - 1);
+                imv = (il+imv) - (this.dpx + this.halfwidth - 1 + 1);
+                minmv = Mathf.Min(imv, minmv);
+            }
+        }
+        
+        r = this.dpx + minmv + this.halfwidth - 1;
+        foreach (var i in cols) {
+            if (i.pignore) { continue; }
+            if (i.gameObject.GetInstanceID() == this.gameObject.GetInstanceID()) { continue; }
+            if (DotCollision.AABBTest(l, r, d, u, i)) {
+                int il = i.dpx - i.halfwidth;
+                int imv = (r + 1) - il;
+                i.PushMoveRight(imv, cols, cnt - 1);
+            }
+        }
+        
+        this.dpx += minmv;
+        this.px = this.dpx * this.dotsize;
+        this.FixPos();
+        return minmv;
+    }
+    public int VPushMoveRight (int mv, List<DotCollision> cols, int cnt = 0) {
+        if (cnt < 0) { return 0; }
+        int l = this.dpx - this.halfwidth;
+        int r = this.dpx + mv + this.halfwidth - 1;
+        int d = this.dpy - this.halfheight;
+        int u = this.dpy + this.halfheight - 1;
+        int cl = this.DotCPos(l);
+        int cr = this.DotCPos(r);
+        int cd = this.DotCPos(d);
+        int cu = this.DotCPos(u);
+        
+        mv = Mathf.Max(mv - this.CollisionRightDiff(r, cl, cr, cd, cu), 0);
+        if (mv == 0) { return 0; }
+        
+        r = this.dpx + mv + this.halfwidth - 1;
+        
+        int minmv = mv;
+        foreach (var i in cols) {
+            if (i.pignore) { continue; }
+            if (i.gameObject.GetInstanceID() == this.gameObject.GetInstanceID()) { continue; }
+            if (DotCollision.AABBTest(l, r, d, u, i)) {
+                int il = i.dpx - i.halfwidth;
+                int imv = (r + 1) - il;
+                imv = i.VPushMoveRight(imv, cols, cnt - 1);
+                imv = (il+imv) - (this.dpx + this.halfwidth - 1 + 1);
+                minmv = Mathf.Min(imv, minmv);
+            }
+        }
+        return minmv;
+    }
+    int CollisionRightDiff (int t, int cl, int cr, int cd, int cu) {
+        int m = t + 1;
+        foreach (var i in E512Pos.BoxList(new E512Pos(cl, cd), new E512Pos(cr, cu))) {
+            if (this.GetCollision(i) == TileCollisionType.NoPassable) { m = Mathf.Min(this.LDot(i.x), m); }
+        }
+        return (t + 1) - m;
+    }
+    
+    public int PushMoveLeft (int mv, List<DotCollision> cols, int cnt = 0) {
+        if (cnt < 0) { return 0; }
+        int l = this.dpx - mv - this.halfwidth;
+        int r = this.dpx + this.halfwidth - 1;
+        int d = this.dpy - this.halfheight;
+        int u = this.dpy + this.halfheight - 1;
+        int cl = this.DotCPos(l);
+        int cr = this.DotCPos(r);
+        int cd = this.DotCPos(d);
+        int cu = this.DotCPos(u);
+        
+        mv = Mathf.Max(mv - this.CollisionLeftDiff(l, cl, cr, cd, cu), 0);
+        if (mv == 0) { return 0; }
+        l = this.dpx - mv - this.halfwidth;
+        
+        int minmv = mv;
+        foreach (var i in cols) {
+            if (i.pignore) { continue; }
+            if (i.gameObject.GetInstanceID() == this.gameObject.GetInstanceID()) { continue; }
+            if (DotCollision.AABBTest(l, r, d, u, i)) {
+                int ir = i.dpx + i.halfwidth - 1;
+                int imv =  ir - (l - 1);
+                imv = i.VPushMoveLeft(imv, cols, cnt - 1);
+                imv = (this.dpx - this.halfwidth - 1) - (ir-imv);
+                minmv = Mathf.Min(imv, minmv);
+            }
+        }
+        
+        l = this.dpx - minmv - this.halfwidth;
+        foreach (var i in cols) {
+            if (i.pignore) { continue; }
+            if (i.gameObject.GetInstanceID() == this.gameObject.GetInstanceID()) { continue; }
+            if (DotCollision.AABBTest(l, r, d, u, i)) {
+                int ir = i.dpx + i.halfwidth - 1;
+                int imv = ir - (l - 1);
+                i.PushMoveLeft(imv, cols, cnt - 1);
+            }
+        }
+        
+        this.dpx -= minmv;
+        this.px = this.dpx * this.dotsize;
+        this.FixPos();
+        return minmv;
+    }
+    public int VPushMoveLeft (int mv, List<DotCollision> cols, int cnt = 0) {
+        if (cnt < 0) { return 0; }
+        int l = this.dpx - mv - this.halfwidth;
+        int r = this.dpx + this.halfwidth - 1;
+        int d = this.dpy - this.halfheight;
+        int u = this.dpy + this.halfheight - 1;
+        int cl = this.DotCPos(l);
+        int cr = this.DotCPos(r);
+        int cd = this.DotCPos(d);
+        int cu = this.DotCPos(u);
+        
+        mv = Mathf.Max(mv - this.CollisionLeftDiff(l, cl, cr, cd, cu), 0);
+        if (mv == 0) { return 0; }
+        l = this.dpx - mv - this.halfwidth;
+        
+        int minmv = mv;
+        foreach (var i in cols) {
+            if (i.pignore) { continue; }
+            if (i.gameObject.GetInstanceID() == this.gameObject.GetInstanceID()) { continue; }
+            if (DotCollision.AABBTest(l, r, d, u, i)) {
+                int ir = i.dpx + i.halfwidth - 1;
+                int imv =  ir - (l - 1);
+                imv = i.VPushMoveLeft(imv, cols, cnt - 1);
+                imv = (this.dpx - this.halfwidth - 1) - (ir-imv);
+                minmv = Mathf.Min(imv, minmv);
+            }
+        }
+        
+        
+        return minmv;
+    }
+    int CollisionLeftDiff (int t, int cl, int cr, int cd, int cu) {
+        int m = t - 1;
+        foreach (var i in E512Pos.BoxList(new E512Pos(cl, cd), new E512Pos(cr, cu))) {
+            if (this.GetCollision(i) == TileCollisionType.NoPassable) { m = Mathf.Max(this.RDot(i.x), m); }
+        }
+        return m - (t - 1);
+    }
+    
+    public int PushMoveUp (int mv, List<DotCollision> cols, int cnt = 0) {
+        if (cnt < 0) { return 0; }
+        int l = this.dpx - this.halfwidth;
+        int r = this.dpx + this.halfwidth - 1;
+        int d = this.dpy - this.halfheight;
+        int u = this.dpy + mv + this.halfheight - 1;
+        int cl = this.DotCPos(l);
+        int cr = this.DotCPos(r);
+        int cd = this.DotCPos(d);
+        int cu = this.DotCPos(u);
+        
+        mv = Mathf.Max(mv - this.CollisionUpDiff(u, cl, cr, cd, cu), 0);
+        if (mv == 0) { return 0; }
+        
+        u = this.dpy + mv + this.halfheight - 1;
+        
+        int minmv = mv;
+        foreach (var i in cols) {
+            if (i.pignore) { continue; }
+            if (i.gameObject.GetInstanceID() == this.gameObject.GetInstanceID()) { continue; }
+            if (DotCollision.AABBTest(l, r, d, u, i)) {
+                int id = i.dpy - i.halfheight;
+                int imv = (u + 1) - id;
+                imv = i.VPushMoveUp(imv, cols, cnt - 1);
+                imv = (id+imv) - (this.dpy + this.halfheight - 1 + 1);
+                minmv = Mathf.Min(imv, minmv);
+            }
+        }
+        
+        u = this.dpy + minmv + this.halfheight - 1;
+        foreach (var i in cols) {
+            if (i.pignore) { continue; }
+            if (i.gameObject.GetInstanceID() == this.gameObject.GetInstanceID()) { continue; }
+            if (DotCollision.AABBTest(l, r, d, u, i)) {
+                int id = i.dpy - i.halfheight;
+                int imv = (u + 1) - id;
+                i.PushMoveUp(imv, cols, cnt - 1);
+            }
+        }
+        
+        this.dpy += minmv;
+        this.py = this.dpy * this.dotsize;
+        this.FixPos();
+        return minmv;
+    }
+    public int VPushMoveUp (int mv, List<DotCollision> cols, int cnt = 0) {
+        if (cnt < 0) { return 0; }
+        int l = this.dpx - this.halfwidth;
+        int r = this.dpx + this.halfwidth - 1;
+        int d = this.dpy - this.halfheight;
+        int u = this.dpy + mv + this.halfheight - 1;
+        int cl = this.DotCPos(l);
+        int cr = this.DotCPos(r);
+        int cd = this.DotCPos(d);
+        int cu = this.DotCPos(u);
+        
+        mv = Mathf.Max(mv - this.CollisionUpDiff(u, cl, cr, cd, cu), 0);
+        if (mv == 0) { return 0; }
+        
+        u = this.dpy + mv + this.halfheight - 1;
+        
+        int minmv = mv;
+        foreach (var i in cols) {
+            if (i.pignore) { continue; }
+            if (i.gameObject.GetInstanceID() == this.gameObject.GetInstanceID()) { continue; }
+            if (DotCollision.AABBTest(l, r, d, u, i)) {
+                int id = i.dpy - i.halfheight;
+                int imv = (u + 1) - id;
+                imv = i.VPushMoveUp(imv, cols, cnt - 1);
+                imv = (id+imv) - (this.dpy + this.halfheight - 1 + 1);
+                minmv = Mathf.Min(imv, minmv);
+            }
+        }
+        return minmv;
+    }
+    int CollisionUpDiff (int t, int cl, int cr, int cd, int cu) {
+        int m = t + 1;
+        foreach (var i in E512Pos.BoxList(new E512Pos(cl, cd), new E512Pos(cr, cu))) {
+            if (this.GetCollision(i) == TileCollisionType.NoPassable) { m = Mathf.Min(this.DDot(i.y), m); }
+        }
+        return (t + 1) - m;
+    }
+    
+    public int PushMoveDown (int mv, List<DotCollision> cols, int cnt = 0) {
+        if (cnt < 0) { return 0; }
+        int l = this.dpx - this.halfwidth;
+        int r = this.dpx + this.halfwidth - 1;
+        int d = this.dpy - mv - this.halfheight;
+        int u = this.dpy + this.halfheight - 1;
+        int cl = this.DotCPos(l);
+        int cr = this.DotCPos(r);
+        int cd = this.DotCPos(d);
+        int cu = this.DotCPos(u);
+        
+        mv = Mathf.Max(mv - this.CollisionDownDiff(d, cl, cr, cd, cu), 0);
+        if (mv == 0) { return 0; }
+        d = this.dpy - mv - this.halfheight;
+        
+        int minmv = mv;
+        foreach (var i in cols) {
+            if (i.pignore) { continue; }
+            if (i.gameObject.GetInstanceID() == this.gameObject.GetInstanceID()) { continue; }
+            if (DotCollision.AABBTest(l, r, d, u, i)) {
+                int iu = i.dpy + i.halfheight - 1;
+                int imv =  iu - (d - 1);
+                imv = i.VPushMoveDown(imv, cols, cnt - 1);
+                imv = (this.dpy - this.halfheight - 1) - (iu-imv);
+                minmv = Mathf.Min(imv, minmv);
+            }
+        }
+        
+        d = this.dpy - minmv - this.halfheight;
+        foreach (var i in cols) {
+            if (i.pignore) { continue; }
+            if (i.gameObject.GetInstanceID() == this.gameObject.GetInstanceID()) { continue; }
+            if (DotCollision.AABBTest(l, r, d, u, i)) {
+                int iu = i.dpy + i.halfheight - 1;
+                int imv = iu - (d - 1);
+                i.PushMoveDown(imv, cols, cnt - 1);
+            }
+        }
+        
+        this.dpy -= minmv;
+        this.py = this.dpy * this.dotsize;
+        this.FixPos();
+        return minmv;
+    }
+    public int VPushMoveDown (int mv, List<DotCollision> cols, int cnt = 0) {
+        if (cnt < 0) { return 0; }
+        int l = this.dpx - this.halfwidth;
+        int r = this.dpx + this.halfwidth - 1;
+        int d = this.dpy - mv - this.halfheight;
+        int u = this.dpy + this.halfheight - 1;
+        int cl = this.DotCPos(l);
+        int cr = this.DotCPos(r);
+        int cd = this.DotCPos(d);
+        int cu = this.DotCPos(u);
+        
+        mv = Mathf.Max(mv - this.CollisionDownDiff(d, cl, cr, cd, cu), 0);
+        if (mv == 0) { return 0; }
+        d = this.dpy - mv - this.halfheight;
+        
+        int minmv = mv;
+        foreach (var i in cols) {
+            if (i.pignore) { continue; }
+            if (i.gameObject.GetInstanceID() == this.gameObject.GetInstanceID()) { continue; }
+            if (DotCollision.AABBTest(l, r, d, u, i)) {
+                int iu = i.dpy + i.halfheight - 1;
+                int imv =  iu - (d - 1);
+                imv = i.VPushMoveDown(imv, cols, cnt - 1);
+                imv = (this.dpy - this.halfheight - 1) - (iu-imv);
+                minmv = Mathf.Min(imv, minmv);
+            }
+        }
+        
+        return minmv;
+    }
+    int CollisionDownDiff (int t, int cl, int cr, int cd, int cu) {
+        int m = t - 1;
+        foreach (var i in E512Pos.BoxList(new E512Pos(cl, cd), new E512Pos(cr, cu))) {
+            if (this.GetCollision(i) == TileCollisionType.NoPassable) { m = Mathf.Max(this.UDot(i.y), m); }
+        }
+        return m - (t - 1);
+    }
+    
+    private int LDot (int cpx) { return cpx * this.tilesize; }
+    private int RDot (int cpx) { return cpx * this.tilesize + this.tilesize - 1; }
+    private int DDot (int cpy) { return cpy * this.tilesize; }
+    private int UDot (int cpy) { return cpy * this.tilesize + this.tilesize - 1; }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     

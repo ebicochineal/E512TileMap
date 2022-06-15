@@ -22,7 +22,7 @@ public class PixelPerfectZoom : MonoBehaviour {
 
         if (Input.mouseScrollDelta.y > 0) {
         //if (Input.GetKeyDown(KeyCode.DownArrow)) {
-            if (this.GetComponent<PixelPerfect>().scale < 4) {
+            if (this.GetComponent<PixelPerfect>().scale < 8) {
                 this.GetComponent<PixelPerfect>().scale *= 2f;
             }
         }

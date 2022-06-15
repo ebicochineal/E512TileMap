@@ -17,7 +17,9 @@ public class PlayerSide : MonoBehaviour {
     private GameObject ebiblue;
 
     private float lighttmp;
-
+    
+    bool buttondown = false;
+    
     // Use this for initialization
     void Start () {
         if (this.map == null) { this.map = E512TileMapData.SceneMap; }
@@ -32,12 +34,15 @@ public class PlayerSide : MonoBehaviour {
     }
     
     
+    void Update () {
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetMouseButtonDown(1)) { this.buttondown = true; }
+    }
+    
     void FixedUpdate () {
         for (int i = 0; i < 1; ++i) {
-            bool bd = (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow) || Input.GetMouseButtonDown(1));
             bool b = (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow) || Input.GetMouseButton(1));
             
-            if (actiontype == 0 && bd) {
+            if (actiontype == 0 && this.buttondown) {
                 var obj = GameObject.Instantiate(egg, this.transform.position, Quaternion.identity);
                 obj.GetComponent<Egg>().gv = Random.Range(0.2f, 0.5f);
                 obj.GetComponent<Egg>().xv = this.lr * 0.5f;
@@ -53,7 +58,7 @@ public class PlayerSide : MonoBehaviour {
             }
 
 
-            if (actiontype == 2 && bd && this.col.Test(16 * this.lr, 0).Count < 1) {
+            if (actiontype == 2 && this.buttondown && this.col.Test(16 * this.lr, 0).Count < 1) {
                 var obj = GameObject.Instantiate(this.ebiblue, this.transform.position + new Vector3(this.lr, 0, 0), Quaternion.identity);
                 obj.transform.parent = GameObject.Find("Enemy").transform;
 
@@ -90,6 +95,8 @@ public class PlayerSide : MonoBehaviour {
             this.col.Gravity(0.015f);
 
             this.ImageLR();
+            
+            this.buttondown = false;
         }
     }
 
