@@ -8,19 +8,14 @@ public class PushMoveTestPlayer : MonoBehaviour {
     public DotCollision col;
     
     public int lr = 1;
-    public Texture texture;
+    public List<DotCollision> cols = new List<DotCollision>();
     private Transform t_image;
     
-    private Material mat;
-    public List<DotCollision> cols = new List<DotCollision>();
-    
-    
-    float vx = 0f;
+    private float vx = 0f;
     
     void Start () {
         this.col = this.GetComponent<DotCollision>();
         this.t_image = this.transform.GetChild(0).transform;
-        this.mat = E512Sprite.CreateMaterial(texture);
     }
     
     void FixedUpdate () {

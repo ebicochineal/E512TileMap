@@ -31,7 +31,7 @@ public class NewSpriteTestPlayer : MonoBehaviour {
     void FixedUpdate () {
         if (Input.GetMouseButton(0)) {
             Vector2 pos = new Vector2(this.transform.position.x, this.transform.position.y + 1f);
-            E512Sprite sprite = E512Sprite.Create(this.mat, 7, 10, pos, 0, 16, 0);
+            E512Sprite sprite = E512Sprite.Create(this.mat, 7, 10, pos, 1, 16, 0);
             NewSpriteTestCoin coin = sprite.gameObject.AddComponent<NewSpriteTestCoin>();
             coin.col = sprite.gameObject.AddComponent<DotCollision>();
             coin.cols.Add(this.col);
@@ -44,7 +44,7 @@ public class NewSpriteTestPlayer : MonoBehaviour {
         }
         if (Input.GetMouseButton(1)) {
             Vector2 pos = new Vector2(this.transform.position.x, this.transform.position.y + 1f);
-            E512Sprite sprite = E512Sprite.Create(this.mat, 7, 12, pos, 0, 16, 0);
+            E512Sprite sprite = E512Sprite.Create(this.mat, 7, 12, pos, 1, 16, 0);
             NewSpriteTestCoin coin = sprite.gameObject.AddComponent<NewSpriteTestCoin>();
             coin.col = sprite.gameObject.AddComponent<DotCollision>();
             coin.vx = this.lr;

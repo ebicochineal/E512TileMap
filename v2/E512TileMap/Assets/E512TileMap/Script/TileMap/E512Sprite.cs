@@ -36,10 +36,15 @@ public class E512Sprite : MonoBehaviour {
     [Range(0, 32)]
     public int darkness = 0;
     
+    private bool f = false;
+    
     // void Start () { this.SetUVPosM(this.tx, this.ty); }
     void OnValidate () {
-        this.InitMaterial();
-        this.SetUV(this.tx, this.ty);
+        if (this.f) {
+            this.InitMaterial();
+            this.SetUV(this.tx, this.ty);
+        }
+        
     }
     
     private void UVUpdate () {
@@ -120,6 +125,7 @@ public class E512Sprite : MonoBehaviour {
         sprite.autoanim = autoanim;
         sprite.InitMaterial();
         sprite.SetUV(tx, ty);
+        sprite.f = true;
         obj.transform.position = new Vector3(pos.x, pos.y, -0.1f * layer);
         return sprite;
     }
