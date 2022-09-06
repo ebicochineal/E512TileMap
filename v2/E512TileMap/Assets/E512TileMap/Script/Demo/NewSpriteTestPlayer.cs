@@ -79,7 +79,7 @@ public class NewSpriteTestPlayer : MonoBehaviour {
         this.col.MoveX(this.vx, this.cols);
         //this.col.MoveX(this.vx);
         this.vx *= 0.8f;
-        
+        if (Mathf.Abs(this.vx) < 0.01) { this.vx = 0f; }
         if (this.col.isground && Input.GetKey(KeyCode.W)) { this.col.gravity = 0.35f; }
         this.col.Gravity(0.010f, cols);
         //this.col.Gravity(0.010f);
