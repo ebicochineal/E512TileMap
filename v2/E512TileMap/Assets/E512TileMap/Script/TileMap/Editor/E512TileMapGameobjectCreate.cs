@@ -7,7 +7,7 @@ public class E512TileMapGameobjectCreate {
     
     [MenuItem("GameObject/E512Sprite")]
     public static void E512SpriteCreate () {
-        E512Sprite.Create(0, 0, new E512Pos(0, 0), 1, 0);
+        E512Sprite.EditorCreate(0, 0, new E512Pos(0, 0), 1, 0);
     }
     
     [MenuItem("GameObject/E512TileMap")]
