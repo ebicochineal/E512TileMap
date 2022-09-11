@@ -25,11 +25,7 @@ public class E512Sprite : MonoBehaviour {
     public Mesh mesh;
     
     
-    [HideInInspector]
     public Material material;
-    
-    
-    public Material usematerial;
     
     [Range(0, 32)]
     public int autoanim = 0;
@@ -50,13 +46,56 @@ public class E512Sprite : MonoBehaviour {
     // }
     
     
+    void OnDrawGizmos () {
+        
+        if (this.meshFilter != null) { return; }
+        if (this.material == null) { return; }
+        float tilesize = this.material.GetInt("_TileSize");
+        float h = this.material.mainTexture.height;
+        float w = this.material.mainTexture.width;
+        if (h*w < 1) { return; }
+        
+        float th = 1f / (h / tilesize);
+        float tw = 1f / (w / tilesize);
+        float sx = tw * this.tx;
+        float ey = 1f - th * this.ty;
+        float ex = tw * (this.tx+1f);
+        float sy = 1f - th * (this.ty+1f);
+        
+        GL.PushMatrix ();
+        GL.MultMatrix (this.transform.localToWorldMatrix);
+        
+        
+        this.material.SetPass(0);
+        
+        GL.Begin (GL.TRIANGLES);
+        
+        GL.TexCoord(new Vector3(sx, ey, 0));
+        GL.Vertex (new Vector3 (-0.5f, 0.5f, 0));
+        GL.TexCoord(new Vector3(ex, ey, 0));
+        GL.Vertex (new Vector3 (0.5f, 0.5f, 0));
+        GL.TexCoord(new Vector3(ex, sy, 0));
+        GL.Vertex (new Vector3 (0.5f, -0.5f, 0));
+    
+        GL.TexCoord(new Vector3(sx, ey, 0));
+        GL.Vertex (new Vector3 (-0.5f, 0.5f, 0));
+        GL.TexCoord(new Vector3(ex, sy, 0));
+        GL.Vertex (new Vector3 (0.5f, -0.5f, 0));
+        GL.TexCoord(new Vector3(sx, sy, 0));
+        GL.Vertex (new Vector3 (-0.5f, -0.5f, 0));
+        
+        
+        GL.End ();
+        GL.PopMatrix ();
+    }
+    
     void Awake () {
         if (!this.editor_create) { return; }
         this.meshFilter = this.gameObject.AddComponent<MeshFilter>();
         this.meshRenderer = this.gameObject.AddComponent<MeshRenderer>();
         
         this.InitMesh();
-        this.meshRenderer.material = this.usematerial;
+        this.meshRenderer.material = this.material;
         
         this.InitMaterial();
         this.SetUV(this.tx, this.ty);
@@ -159,7 +198,7 @@ public class E512Sprite : MonoBehaviour {
         
         sprite.darkness = darkness;
         sprite.autoanim = autoanim;
-        sprite.usematerial = Resources.Load<Material>("Material/DefaultE512SpriteMaterial");
+        sprite.material = Resources.Load<Material>("Material/DefaultE512SpriteMaterial");
         
         obj.transform.position = new Vector3(pos.x+0.5f, pos.y+0.5f, -0.1f * layer);
         
