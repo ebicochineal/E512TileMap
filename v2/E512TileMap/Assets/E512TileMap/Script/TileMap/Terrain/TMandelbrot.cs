@@ -44,7 +44,7 @@ public class TMandelbrot : E512TileTerrain {
     //    return r;
     //}
 
-    public override int GetTileDark (E512Pos cpos) {
+    public override int GetTileLight (E512Pos cpos) {
         return this.tmp;
     }
 }

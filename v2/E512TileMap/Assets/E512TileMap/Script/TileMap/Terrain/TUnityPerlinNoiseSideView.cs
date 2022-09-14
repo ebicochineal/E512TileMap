@@ -65,7 +65,7 @@ public class TUnityPerlinNoiseSideView : E512TileTerrain {
     }
 
 
-    public override int GetTileDark (E512Pos cpos) {
+    public override int GetTileLight (E512Pos cpos) {
         return E512Tile.BrightLevel;
     }
 

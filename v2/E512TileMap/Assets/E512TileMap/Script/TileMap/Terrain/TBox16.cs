@@ -35,7 +35,7 @@ public class TBox16 : E512TileTerrain {
         }
     }
     
-    public override int GetTileDark(E512Pos cpos) {
+    public override int GetTileLight(E512Pos cpos) {
         return 16;
     }
     

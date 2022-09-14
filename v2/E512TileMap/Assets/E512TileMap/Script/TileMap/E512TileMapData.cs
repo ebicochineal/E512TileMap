@@ -72,7 +72,6 @@ public class E512TileMapData : MonoBehaviour {
         if (this.ismap) { E512TileMapData.SceneMap = this; }
         
         if (this.terrain == null) { this.terrain = this.gameObject.GetComponent<E512TileTerrain>(); }
-        if (this.terrain == null) { this.terrain = this.gameObject.AddComponent<E512TileTerrain>(); }
         
         this.terrain.Init();
         this.data_block = this.terrain.data_block;

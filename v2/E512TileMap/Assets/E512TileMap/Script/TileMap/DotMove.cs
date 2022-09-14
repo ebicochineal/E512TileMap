@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class DotMove : MonoBehaviour {
     [HideInInspector]
     public float px, py;// 座標 オブジェクトの座標は修正されるので保存しておく 中心
-    //[HideInInspector]
+    [HideInInspector]
     public int dpx, dpy;// ドット座標 中心
     [HideInInspector]
     public int width;
@@ -18,6 +18,7 @@ public class DotMove : MonoBehaviour {
     public int halfwidth = 8;
     public int halfheight = 8;
 
+    [HideInInspector]
     public  float dotsize;
     protected int tilesize = 1;
     protected int halftilesize;

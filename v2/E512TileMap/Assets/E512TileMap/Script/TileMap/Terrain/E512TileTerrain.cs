@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 // タイルマップの初期化、生成
-// GetTileDark 0明、32暗
+// GetTileLight 0明、32暗
 public class E512TileTerrain : MonoBehaviour {
     
     private Dictionary<E512Pos, E512Block> dict_mapdata = new Dictionary<E512Pos, E512Block>();// マップブロックデータ辞書
@@ -169,7 +169,7 @@ public class E512TileTerrain : MonoBehaviour {
     }
     public int LoadTileLight (E512Pos cpos) {
         E512Pos bpos = E512Block.BPos(cpos);
-        if (!this.data_block.Contains(bpos)) { return this.GetTileDark(cpos); }
+        if (!this.data_block.Contains(bpos)) { return this.GetTileLight(cpos); }
         if (!this.dict_mapdata.ContainsKey(bpos)) { this.LoadBlock(bpos); }
         E512Block b = this.dict_mapdata[bpos];
         E512Pos blpos = E512Block.BLocalPos(cpos);
@@ -187,7 +187,7 @@ public class E512TileTerrain : MonoBehaviour {
     
     public virtual int GetTileIndex (E512Pos cpos, int layer) { return 1; }
     public virtual int GetAutoTileIndex (E512Pos cpos, int layer) { return this.CalcAutoTileIndex(cpos, layer); }
-    public virtual int GetTileDark (E512Pos cpos) { return 0; }
+    public virtual int GetTileLight (E512Pos cpos) { return 0; }
     
     public virtual void TerrainAwake () {}
 }

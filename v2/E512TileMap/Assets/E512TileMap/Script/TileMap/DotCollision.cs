@@ -1002,8 +1002,19 @@ public class DotCollision : DotMove {
     
     
     
-    
-    
+    /// <summary>
+    /// 自身の範囲にindexのタイルが含まれるか
+    /// </summary>
+    public bool Contains (int index) {
+        int l = this.DotCPos(this.dpx - this.halfwidth);
+        int r = this.DotCPos(this.dpx + this.halfwidth - 1);
+        int u = this.DotCPos(this.dpy + this.halfheight - 1);
+        int d = this.DotCPos(this.dpy - this.halfheight);
+        foreach (var i in E512Pos.BoxList(new E512Pos(l, d), new E512Pos(r, u))) {
+            if (this.GetTileIndex(i) == index) { return true; }
+        }
+        return false;
+    }
     
     
     

@@ -32,7 +32,7 @@ public class E512Sprite : MonoBehaviour {
     
     
     [Range(0, 32)]
-    public int darkness = 0;
+    public int brightness = 0;
     
     [HideInInspector]
     public bool editor_create = false;
@@ -62,31 +62,31 @@ public class E512Sprite : MonoBehaviour {
         float ex = tw * (this.tx+1f);
         float sy = 1f - th * (this.ty+1f);
         
-        GL.PushMatrix ();
-        GL.MultMatrix (this.transform.localToWorldMatrix);
+        GL.PushMatrix();
+        GL.MultMatrix(this.transform.localToWorldMatrix);
         
         
         this.material.SetPass(0);
         
-        GL.Begin (GL.TRIANGLES);
+        GL.Begin(GL.TRIANGLES);
         
         GL.TexCoord(new Vector3(sx, ey, 0));
-        GL.Vertex (new Vector3 (-0.5f, 0.5f, 0));
+        GL.Vertex(new Vector3(-0.5f, 0.5f, 0));
         GL.TexCoord(new Vector3(ex, ey, 0));
-        GL.Vertex (new Vector3 (0.5f, 0.5f, 0));
+        GL.Vertex(new Vector3(0.5f, 0.5f, 0));
         GL.TexCoord(new Vector3(ex, sy, 0));
-        GL.Vertex (new Vector3 (0.5f, -0.5f, 0));
+        GL.Vertex (new Vector3(0.5f, -0.5f, 0));
     
         GL.TexCoord(new Vector3(sx, ey, 0));
-        GL.Vertex (new Vector3 (-0.5f, 0.5f, 0));
+        GL.Vertex(new Vector3(-0.5f, 0.5f, 0));
         GL.TexCoord(new Vector3(ex, sy, 0));
-        GL.Vertex (new Vector3 (0.5f, -0.5f, 0));
+        GL.Vertex(new Vector3(0.5f, -0.5f, 0));
         GL.TexCoord(new Vector3(sx, sy, 0));
-        GL.Vertex (new Vector3 (-0.5f, -0.5f, 0));
+        GL.Vertex(new Vector3(-0.5f, -0.5f, 0));
         
         
-        GL.End ();
-        GL.PopMatrix ();
+        GL.End();
+        GL.PopMatrix();
     }
     
     void Awake () {
@@ -115,10 +115,10 @@ public class E512Sprite : MonoBehaviour {
         uv[2] = new Vector2(left, up);
         uv[3] = new Vector2(right, down);
         
-        uv[0].y += this.darkness;
-        uv[1].y += this.darkness;
-        uv[2].y += this.darkness;
-        uv[3].y += this.darkness;
+        uv[0].y += this.brightness;
+        uv[1].y += this.brightness;
+        uv[2].y += this.brightness;
+        uv[3].y += this.brightness;
         this.mesh.uv = uv;
     }
     
@@ -167,7 +167,7 @@ public class E512Sprite : MonoBehaviour {
     }
     
     
-    public static E512Sprite Create (Material material, int tx, int ty, Vector2 pos, int layer, int darkness = 0, int autoanim = 0) {
+    public static E512Sprite Create (Material material, int tx, int ty, Vector2 pos, int layer, int brightness = 0, int autoanim = 0) {
         GameObject obj = new GameObject();
         obj.name = "E512Sprite";
         E512Sprite sprite = obj.AddComponent<E512Sprite>();
@@ -175,28 +175,28 @@ public class E512Sprite : MonoBehaviour {
         sprite.InitMesh();
         sprite.meshRenderer = obj.AddComponent<MeshRenderer>();
         sprite.meshRenderer.material = material;
-        sprite.darkness = darkness;
+        sprite.brightness = brightness;
         sprite.autoanim = autoanim;
         sprite.InitMaterial();
         sprite.SetUV(tx, ty);
         obj.transform.position = new Vector3(pos.x, pos.y, -0.1f * layer);
         return sprite;
     }
-    public static E512Sprite Create (Material material, int tx, int ty, E512Pos pos, int layer, int darkness = 0, int autoanim = 0) {
-        return E512Sprite.Create(material, tx, ty, new Vector2(pos.x+0.5f, pos.y+0.5f), layer, darkness, autoanim);
+    public static E512Sprite Create (Material material, int tx, int ty, E512Pos pos, int layer, int brightness = 0, int autoanim = 0) {
+        return E512Sprite.Create(material, tx, ty, new Vector2(pos.x+0.5f, pos.y+0.5f), layer, brightness, autoanim);
     }
-    public static E512Sprite Create (int tx, int ty, E512Pos pos, int layer, int darkness = 0, int autoanim = 0) {
-        return E512Sprite.Create(Resources.Load<Material>("Material/DefaultE512SpriteMaterial"), tx, ty, new Vector2(pos.x+0.5f, pos.y+0.5f), layer, darkness, autoanim);
+    public static E512Sprite Create (int tx, int ty, E512Pos pos, int layer, int brightness = 0, int autoanim = 0) {
+        return E512Sprite.Create(Resources.Load<Material>("Material/DefaultE512SpriteMaterial"), tx, ty, new Vector2(pos.x+0.5f, pos.y+0.5f), layer, brightness, autoanim);
     }
     
-    public static void EditorCreate (int tx, int ty, E512Pos pos, int layer, int darkness = 0, int autoanim = 0) {
+    public static void EditorCreate (int tx, int ty, E512Pos pos, int layer, int brightness = 0, int autoanim = 0) {
         GameObject obj = new GameObject();
         obj.name = "E512Sprite";
         E512Sprite sprite = obj.AddComponent<E512Sprite>();
         sprite.tx = tx;
         sprite.ty = ty;
         
-        sprite.darkness = darkness;
+        sprite.brightness = brightness;
         sprite.autoanim = autoanim;
         sprite.material = Resources.Load<Material>("Material/DefaultE512SpriteMaterial");
         
@@ -207,7 +207,7 @@ public class E512Sprite : MonoBehaviour {
     
     
     
-    public static E512Sprite CreateTile (E512TileMapData map, int tileindex, Vector2 pos, int layer, int darkness = 0) {
+    public static E512Sprite CreateTile (E512TileMapData map, int tileindex, Vector2 pos, int layer, int brightness = 0) {
         GameObject obj = new GameObject();
         obj.name = "E512Sprite";
         E512Sprite sprite = obj.AddComponent<E512Sprite>();
@@ -218,13 +218,13 @@ public class E512Sprite : MonoBehaviour {
         sprite.meshRenderer.material = map.tilemanager.material;
         sprite.InitMaterial();
         sprite.SetTile(map, tileindex);
-        sprite.darkness = darkness;
+        sprite.brightness = brightness;
         obj.transform.position = new Vector3(pos.x, pos.y, -0.1f * layer);
         return sprite;
     }
     
-    public static E512Sprite CreateTile (E512TileMapData map, int tileindex, E512Pos pos, int layer, int darkness = 0) {
-        return E512Sprite.CreateTile(map, tileindex, new Vector2(pos.x+0.5f, pos.y+0.5f), layer, darkness);
+    public static E512Sprite CreateTile (E512TileMapData map, int tileindex, E512Pos pos, int layer, int brightness = 0) {
+        return E512Sprite.CreateTile(map, tileindex, new Vector2(pos.x+0.5f, pos.y+0.5f), layer, brightness);
     }
     
     public static Material CreateMaterial (Texture texture, int tilesize = 16) {

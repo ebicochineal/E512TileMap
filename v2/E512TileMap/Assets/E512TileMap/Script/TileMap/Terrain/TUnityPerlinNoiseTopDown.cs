@@ -38,7 +38,7 @@ public class TUnityPerlinNoiseTopDown : E512TileTerrain {
         return r;
     }
 
-    public override int GetTileDark (E512Pos cpos) {
+    public override int GetTileLight (E512Pos cpos) {
         
         float x, y, n, a, b, c;
         x = cpos.x * 0.05f;

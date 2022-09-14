@@ -81,10 +81,9 @@ public class PlayerSide : MonoBehaviour {
                 var r = ((Mathf.Abs(this.col.dpx % 16 + 16) + 8) % 16);
                 var l = ((Mathf.Abs(this.col.dpx % 16 + 16) + 7) % 16);
                 if (this.col.Test(16 - r, -1).Count == 0) {
-                    this.col.MoveX(1);
-
+                    this.col.MoveX(0.1f);
                 } else if (this.col.Test(-(16 - (16 - l - 1)), -1).Count == 0) {
-                    this.col.MoveX(-1);
+                    this.col.MoveX(-0.1f);
                 }
             }
 
